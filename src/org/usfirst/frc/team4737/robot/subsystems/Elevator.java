@@ -7,16 +7,14 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 /**
  *
  */
-public class Claw extends Subsystem {
+public class Elevator extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	private CANTalon clawLeft;
-	private CANTalon clawRight;
-	
-	
-	
+	private CANTalon elevatorMotor;
+	private CANTalon elevatorSpool;
+
     public void initDefaultCommand() {
         // Set the default command for a subsystem here.
         //setDefaultCommand(new MySpecialCommand());
