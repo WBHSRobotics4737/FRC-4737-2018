@@ -1,19 +1,19 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
-import com.ctre.CANTalon;
+import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
  *
  */
-public class Claw extends Subsystem {
+public class Intake extends Subsystem {
 
     // Put methods for controlling this subsystem
     // here. Call these from Commands.
 	
-	private CANTalon clawLeft;
-	private CANTalon clawRight;
+	private WPI_TalonSRX clawLeft;
+	private WPI_TalonSRX clawRight;
 	
 	
 	
