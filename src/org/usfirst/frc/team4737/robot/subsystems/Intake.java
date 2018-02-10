@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 public class Intake extends Subsystem {
 
 	private static Intake instance = new Intake();
-	
+
 	public static Intake getInstance() {
 		return instance;
 	}
