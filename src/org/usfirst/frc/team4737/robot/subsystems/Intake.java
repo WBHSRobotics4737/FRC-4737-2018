@@ -12,11 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-	private static Intake instance = new Intake();
-
-	public static Intake getInstance() {
-		return instance;
-	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
@@ -42,4 +37,5 @@ public class Intake extends Subsystem {
 	public void setSpeed(double speed) {
 		// TODO
 	}
+	
 }

@@ -12,12 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Elevator extends Subsystem {
 
-	private static Elevator instance = new Elevator();
-
-	public static Elevator getInstance() {
-		return instance;
-	}
-
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
