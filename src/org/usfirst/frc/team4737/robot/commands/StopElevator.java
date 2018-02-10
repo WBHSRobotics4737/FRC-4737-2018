@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4737.robot.commands;
 
+import org.usfirst.frc.team4737.robot.Robot;
 import org.usfirst.frc.team4737.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.command.Command;
@@ -10,7 +11,7 @@ import edu.wpi.first.wpilibj.command.Command;
 public class StopElevator extends Command {
 
 	public StopElevator() {
-		requires(Elevator.getInstance());
+		requires(Robot.ELEVATOR);
 	}
 
 	// Called just before this Command runs the first time
@@ -19,7 +20,7 @@ public class StopElevator extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Elevator.getInstance().setSpeed(0);
+		Robot.ELEVATOR.setSpeed(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -35,4 +36,5 @@ public class StopElevator extends Command {
 	// subsystems is scheduled to run
 	protected void interrupted() {
 	}
+
 }
