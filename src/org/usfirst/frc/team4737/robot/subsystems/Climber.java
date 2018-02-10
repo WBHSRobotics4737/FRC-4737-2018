@@ -9,16 +9,16 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Climber extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
-	
-	private WPI_TalonSRX elevatorMotor;
-	private WPI_TalonSRX elevatorSpool;
-	
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
+	public Climber() {
+		// TODO when we know how the climber works #BlameMechanical
+	}
+	
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
+	
 }
-
