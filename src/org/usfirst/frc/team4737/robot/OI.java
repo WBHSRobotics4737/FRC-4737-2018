@@ -7,7 +7,10 @@
 
 package org.usfirst.frc.team4737.robot;
 
-import edu.wpi.first.wpilibj.Joystick;
+import org.usfirst.frc.team4737.lib.LogitechController;
+import org.usfirst.frc.team4737.robot.commands.ReverseIntake;
+import org.usfirst.frc.team4737.robot.commands.RunIntake;
+
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -42,12 +45,14 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public Joystick leftJoystick;
-	public Joystick rightJoystick;
+	public LogitechController controller;
 	
 	public OI() {
-		leftJoystick = new Joystick(0);
-		rightJoystick = new Joystick(1);
+		controller = new LogitechController(0);
+		
+		controller.A.whileHeld(new RunIntake());
+		controller.B.whileHeld(new ReverseIntake());
+		
 	}
 	
 }
