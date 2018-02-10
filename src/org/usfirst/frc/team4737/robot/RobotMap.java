@@ -16,19 +16,16 @@ package org.usfirst.frc.team4737.robot;
 public class RobotMap {
 
 	// Drivetrain
-
 	public static int DRIVE_LEFT_MASTER = 11;
 	public static int DRIVE_LEFT_SLAVE = 12;
 	public static int DRIVE_RIGHT_MASTER = 13;
 	public static int DRIVE_RIGHT_SLAVE = 14;
 
 	// Intake
-
 	public static final int INTAKE_LEFT = 15;
 	public static final int INTAKE_RIGHT = 16;
 
 	// Elevator
-
 	public static final int ELEVATOR_MOTOR_A = 17;
 	public static final int ELEVATOR_MOTOR_B = 18;
 

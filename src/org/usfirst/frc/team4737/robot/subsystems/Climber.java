@@ -9,6 +9,11 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Climber extends Subsystem {
 
+	private static Climber instance = new Climber ();
+	
+	public static Climber getInstance() {
+		return instance;
+	}
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 

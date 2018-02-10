@@ -10,6 +10,12 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  *
  */
 public class Drivetrain extends Subsystem {
+	
+	private static Drivetrain instance = new Drivetrain();
+	
+	public static Drivetrain getInstance() {
+		return instance;
+	}
 
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
