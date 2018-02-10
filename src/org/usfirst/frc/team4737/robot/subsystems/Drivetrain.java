@@ -11,38 +11,39 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Drivetrain extends Subsystem {
 
-    // Put methods for controlling this subsystem
-    // here. Call these from Commands.
+	// Put methods for controlling this subsystem
+	// here. Call these from Commands.
 	private WPI_TalonSRX leftFrontMaster;
 	private WPI_TalonSRX rightFrontMaster;
 	private WPI_TalonSRX leftBackSlave;
 	private WPI_TalonSRX rightBackSlave;
-	
+
 	public Drivetrain() {
-		leftFrontMaster = new WPI_TalonSRX(RobotMap.leftDriveMaster);
-		leftBackSlave = new WPI_TalonSRX(RobotMap.leftDriveSlave);
-		rightFrontMaster = new WPI_TalonSRX(RobotMap.rightDriveMaster);
-		rightBackSlave = new WPI_TalonSRX(RobotMap.rightDriveSlave);
-		
+		leftFrontMaster = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
+		leftBackSlave = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_SLAVE);
+		rightFrontMaster = new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
+		rightBackSlave = new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_SLAVE);
+
 		leftBackSlave.follow(leftFrontMaster);
 		rightBackSlave.follow(rightFrontMaster);
 	}
 
-    public void initDefaultCommand() {
-        // Set the default command for a subsystem here.
-        //setDefaultCommand(new MySpecialCommand());
-    }
-    
-    /**
-     * Controls the drivetrain using two tank-drive joystick inputs
-     * 
-     * @param leftInput - Left joystick input from -1.0 to 1.0
-     * @param rightInput - Right joystick input from -1.0 to 1.0
-     */
-    public void tankDrive(double leftInput, double rightInput) {
-    	leftFrontMaster.set(leftInput);
-    	rightFrontMaster.set(rightInput);
-    }
-    
-}
+	public void initDefaultCommand() {
+		// Set the default command for a subsystem here.
+		// setDefaultCommand(new MySpecialCommand());
+	}
 
+	/**
+	 * Controls the drivetrain using two tank-drive joystick inputs
+	 * 
+	 * @param leftInput
+	 *            - Left joystick input from -1.0 to 1.0
+	 * @param rightInput
+	 *            - Right joystick input from -1.0 to 1.0
+	 */
+	public void tankDrive(double leftInput, double rightInput) {
+		leftFrontMaster.set(leftInput);
+		rightFrontMaster.set(rightInput);
+	}
+
+}

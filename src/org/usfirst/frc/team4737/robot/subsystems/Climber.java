@@ -15,10 +15,10 @@ public class Climber extends Subsystem {
 	public Climber() {
 		// TODO when we know how the climber works #BlameMechanical
 	}
-	
+
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
 		// setDefaultCommand(new MySpecialCommand());
 	}
-	
+
 }
