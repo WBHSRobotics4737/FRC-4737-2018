@@ -7,6 +7,11 @@
 
 package org.usfirst.frc.team4737.robot;
 
+import org.usfirst.frc.team4737.robot.subsystems.Climber;
+import org.usfirst.frc.team4737.robot.subsystems.Drivetrain;
+import org.usfirst.frc.team4737.robot.subsystems.Elevator;
+import org.usfirst.frc.team4737.robot.subsystems.Intake;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -21,11 +26,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	/*
-	 * public static final ExampleSubsystem kExampleSubsystem = new
-	 * ExampleSubsystem();
-	 */
-	public static OI m_oi;
+
+	public static final OI OI = new OI();
+	public static final Drivetrain DRIVETRAIN = new Drivetrain();
+	public static final Elevator ELEVATOR = new Elevator();
+	public static final Intake INTAKE = new Intake();
+	public static final Climber CLIMBER = new Climber();
 
 	Command m_autonomousCommand;
 	SendableChooser<Command> m_chooser = new SendableChooser<>();
@@ -36,7 +42,6 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		m_oi = new OI();
 		// m_chooser.addDefault("Default Auto", new ExampleCommand());
 		// chooser.addObject("My Auto", new MyAutoCommand());
 		SmartDashboard.putData("Auto mode", m_chooser);
