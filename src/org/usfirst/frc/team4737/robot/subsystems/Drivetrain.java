@@ -20,9 +20,9 @@ public class Drivetrain extends Subsystem {
 	
 	public Drivetrain() {
 		leftFrontMaster = new WPI_TalonSRX(RobotMap.leftDriveMaster);
-		leftBackSlave = new WPI_TalonSRX(RobotMap.leftDriveMaster);
-		rightFrontMaster = new WPI_TalonSRX(RobotMap.leftDriveMaster);
-		rightBackSlave = new WPI_TalonSRX(RobotMap.leftDriveMaster);
+		leftBackSlave = new WPI_TalonSRX(RobotMap.leftDriveSlave);
+		rightFrontMaster = new WPI_TalonSRX(RobotMap.rightDriveMaster);
+		rightBackSlave = new WPI_TalonSRX(RobotMap.rightDriveSlave);
 		
 		leftBackSlave.follow(leftFrontMaster);
 		rightBackSlave.follow(rightFrontMaster);
@@ -34,6 +34,7 @@ public class Drivetrain extends Subsystem {
     }
     
     /**
+     * Controls the drivetrain using two tank-drive joystick inputs
      * 
      * @param leftInput - Left joystick input from -1.0 to 1.0
      * @param rightInput - Right joystick input from -1.0 to 1.0
