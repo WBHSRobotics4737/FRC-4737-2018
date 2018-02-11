@@ -197,6 +197,14 @@ public abstract class Gamepad {
 					new DPadButton[] { UP, UP_LEFT, UP_RIGHT });
 		}
 
+		/**
+		   * Get the angle in degrees of the DPad.
+		   *
+		   * <p>The POV angles start at 0 in the up direction, and increase clockwise (eg right is 90,
+		   * upper-left is 315).
+		   *
+		   * @return the angle of the POV in degrees, or -1 if the POV is not pressed.
+		   */
 		public int getDegree() {
 			return gamepad.gamepad.getPOV(id);
 		}
@@ -306,7 +314,7 @@ public abstract class Gamepad {
 	 * being used.
 	 * 
 	 * @param name
-	 *            - The name of the thumbstick (usually just <code>"LS"</code> or
+	 *            The name of the thumbstick (usually just <code>"LS"</code> or
 	 *            <code>"RS"</code>)
 	 * @return Returns a thumbstick mapped with the given name
 	 */
@@ -319,7 +327,7 @@ public abstract class Gamepad {
 	 * being used.
 	 * 
 	 * @param name
-	 *            - The name of the DPad (usually just <code>"DPAD"</code>)
+	 *            The name of the DPad (usually just <code>"DPAD"</code>)
 	 * @return Returns a button mapped with the given name
 	 */
 	public DPad getDPad(String name) {
