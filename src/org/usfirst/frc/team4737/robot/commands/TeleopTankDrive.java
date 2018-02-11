@@ -21,8 +21,8 @@ public class TeleopTankDrive extends Command {
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
     	Robot.DRIVETRAIN.tankDrive(
-    			Robot.OI.controller.LS.Y.get(),
-    			Robot.OI.controller.RS.Y.get());
+    			Robot.OI.controller.getThumbstick("LS").Y.get(),
+    			Robot.OI.controller.getThumbstick("RS").Y.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()

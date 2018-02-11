@@ -7,7 +7,8 @@
 
 package org.usfirst.frc.team4737.robot;
 
-import org.usfirst.frc.team4737.lib.LogitechController;
+import org.usfirst.frc.team4737.lib.Gamepad;
+import org.usfirst.frc.team4737.lib.LogitechGamepad;
 import org.usfirst.frc.team4737.robot.commands.ReverseIntake;
 import org.usfirst.frc.team4737.robot.commands.RunIntake;
 
@@ -45,13 +46,13 @@ public class OI {
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
 	
-	public LogitechController controller;
+	public Gamepad controller;
 	
 	public OI() {
-		controller = new LogitechController(0);
+		controller = new LogitechGamepad(0);
 		
-		controller.A.whileHeld(new RunIntake());
-		controller.B.whileHeld(new ReverseIntake());
+		controller.getButton("A").whileHeld(new RunIntake());
+		controller.getButton("B").whileHeld(new ReverseIntake());
 		
 	}
 	
