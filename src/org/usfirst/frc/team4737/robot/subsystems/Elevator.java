@@ -4,6 +4,7 @@ import org.usfirst.frc.team4737.robot.RobotMap;
 import org.usfirst.frc.team4737.robot.commands.StopElevator;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -49,6 +50,14 @@ public class Elevator extends Subsystem {
 	 */
 	public void setSpeed(double speed) {
 		motor.set(ControlMode.PercentOutput, speed);
+	}
+	
+	public void setBrakeMode() {
+		motor.setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setCoastMode() {
+		motor.setNeutralMode(NeutralMode.Coast);
 	}
 
 }

@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4737.robot;
 
+import org.usfirst.frc.team4737.robot.commands.RelaxDrivetrain;
 import org.usfirst.frc.team4737.robot.subsystems.Climber;
 import org.usfirst.frc.team4737.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4737.robot.subsystems.Elevator;
@@ -54,7 +55,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
-
+		new RelaxDrivetrain().start();
 	}
 
 	@Override

@@ -3,6 +3,7 @@ package org.usfirst.frc.team4737.robot.subsystems;
 import org.usfirst.frc.team4737.robot.RobotMap;
 import org.usfirst.frc.team4737.robot.commands.TeleopTankDrive;
 
+import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
@@ -28,9 +29,11 @@ public class Drivetrain extends Subsystem {
 
 		leftBackSlave.follow(leftFrontMaster);
 		rightBackSlave.follow(rightFrontMaster);
+		
+		leftFrontMaster.configOpenloopRamp(0.5, 30);
+		rightFrontMaster.configOpenloopRamp(0.5, 30);
 
 		drive = new DifferentialDrive(leftFrontMaster, rightFrontMaster);
-
 	}
 
 	public void initDefaultCommand() {
@@ -38,6 +41,20 @@ public class Drivetrain extends Subsystem {
 		setDefaultCommand(new TeleopTankDrive());
 	}
 
+	public void setBrakeMode() {
+		leftFrontMaster.setNeutralMode(NeutralMode.Brake);
+		leftBackSlave.setNeutralMode(NeutralMode.Brake);
+		rightFrontMaster.setNeutralMode(NeutralMode.Brake);
+		rightBackSlave.setNeutralMode(NeutralMode.Brake);
+	}
+	
+	public void setCoastMode() {
+		leftFrontMaster.setNeutralMode(NeutralMode.Coast);
+		leftBackSlave.setNeutralMode(NeutralMode.Coast);
+		rightFrontMaster.setNeutralMode(NeutralMode.Coast);
+		rightBackSlave.setNeutralMode(NeutralMode.Coast);
+	}
+	
 	/**
 	 * Controls the drivetrain using two tank-drive joystick inputs
 	 * 

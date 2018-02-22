@@ -7,23 +7,19 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TeleopTankDrive extends Command {
+public class RelaxDrivetrain extends Command {
 
-    public TeleopTankDrive() {
-        // Use requires() here to declare subsystem dependencies
+    public RelaxDrivetrain() {
         requires(Robot.DRIVETRAIN);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.DRIVETRAIN.setBrakeMode();
+    	Robot.DRIVETRAIN.setCoastMode();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	Robot.DRIVETRAIN.tankDrive(
-    			Robot.OI.driver.getThumbstick("LS").Y.get(),
-    			Robot.OI.driver.getThumbstick("RS").Y.get());
     }
 
     // Make this return true when this Command no longer needs to run execute()
