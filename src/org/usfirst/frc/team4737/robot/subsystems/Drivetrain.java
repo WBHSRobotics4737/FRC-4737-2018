@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
 import org.usfirst.frc.team4737.robot.RobotMap;
-import org.usfirst.frc.team4737.robot.commands.TeleopTankDrive;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;

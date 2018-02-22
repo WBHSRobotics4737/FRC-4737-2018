@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4737.robot.commands;
+package org.usfirst.frc.team4737.robot.commands.elevator;
 
 import org.usfirst.frc.team4737.robot.Robot;
 
@@ -7,15 +7,15 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RelaxDrivetrain extends Command {
+public class RelaxElevator extends Command {
 
-    public RelaxDrivetrain() {
-        requires(Robot.DRIVETRAIN);
+    public RelaxElevator() {
+        requires(Robot.ELEVATOR);
     }
 
     // Called just before this Command runs the first time
     protected void initialize() {
-    	Robot.DRIVETRAIN.setCoastMode();
+    	Robot.ELEVATOR.setCoastMode();
     }
 
     // Called repeatedly when this Command is scheduled to run

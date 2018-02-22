@@ -7,7 +7,7 @@
 
 package org.usfirst.frc.team4737.robot;
 
-import org.usfirst.frc.team4737.robot.commands.RelaxDrivetrain;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.RelaxDrivetrain;
 import org.usfirst.frc.team4737.robot.subsystems.Climber;
 import org.usfirst.frc.team4737.robot.subsystems.Drivetrain;
 import org.usfirst.frc.team4737.robot.subsystems.Elevator;

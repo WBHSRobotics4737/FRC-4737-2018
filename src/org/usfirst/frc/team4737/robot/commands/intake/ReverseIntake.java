@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4737.robot.commands;
+package org.usfirst.frc.team4737.robot.commands.intake;
 
 import org.usfirst.frc.team4737.robot.Robot;
 
@@ -7,9 +7,9 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class RunIntake extends Command {
+public class ReverseIntake extends Command {
 
-	public RunIntake() {
+	public ReverseIntake() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.INTAKE);
 	}
@@ -20,7 +20,7 @@ public class RunIntake extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.INTAKE.setSpeed(1);
+		Robot.INTAKE.setSpeed(-1);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

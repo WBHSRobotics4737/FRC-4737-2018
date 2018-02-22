@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4737.robot.commands;
+package org.usfirst.frc.team4737.robot.commands.elevator;
 
 import org.usfirst.frc.team4737.robot.Robot;
 
@@ -7,19 +7,20 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class ControlIntake extends Command {
+public class StopElevator extends Command {
 
-	public ControlIntake() {
-		requires(Robot.INTAKE);
+	public StopElevator() {
+		requires(Robot.ELEVATOR);
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.ELEVATOR.setBrakeMode();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.INTAKE.setSpeed(-Robot.OI.operator.getAxis("LT").get() + Robot.OI.operator.getAxis("RT").get());
+		Robot.ELEVATOR.setSpeed(0);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -34,6 +35,6 @@ public class ControlIntake extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
-		Robot.INTAKE.setSpeed(0);
 	}
+
 }

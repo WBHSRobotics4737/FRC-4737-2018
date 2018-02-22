@@ -1,7 +1,8 @@
-package org.usfirst.frc.team4737.robot.commands;
+package org.usfirst.frc.team4737.robot.commands.elevator;
 
 import org.usfirst.frc.team4737.robot.Robot;
 import org.usfirst.frc.team4737.robot.RobotMap;
+import org.usfirst.frc.team4737.robot.commands.BuzzController;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 

@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
 import org.usfirst.frc.team4737.robot.RobotMap;
-import org.usfirst.frc.team4737.robot.commands.StopIntake;
+import org.usfirst.frc.team4737.robot.commands.intake.StopIntake;
 
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 

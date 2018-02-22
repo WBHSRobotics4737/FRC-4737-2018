@@ -9,11 +9,11 @@ package org.usfirst.frc.team4737.robot;
 
 import org.usfirst.frc.team4737.lib.Gamepad;
 import org.usfirst.frc.team4737.lib.F310Gamepad;
-import org.usfirst.frc.team4737.robot.commands.ControlElevator;
-import org.usfirst.frc.team4737.robot.commands.ControlIntake;
-import org.usfirst.frc.team4737.robot.commands.ReverseIntake;
-import org.usfirst.frc.team4737.robot.commands.RunIntake;
-import org.usfirst.frc.team4737.robot.commands.TeleopTankDrive;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
+import org.usfirst.frc.team4737.robot.commands.elevator.ControlElevator;
+import org.usfirst.frc.team4737.robot.commands.intake.ControlIntake;
+import org.usfirst.frc.team4737.robot.commands.intake.ReverseIntake;
+import org.usfirst.frc.team4737.robot.commands.intake.RunIntake;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 

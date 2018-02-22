@@ -1,7 +1,7 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
 import org.usfirst.frc.team4737.robot.RobotMap;
-import org.usfirst.frc.team4737.robot.commands.StopElevator;
+import org.usfirst.frc.team4737.robot.commands.elevator.StopElevator;
 
 import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
