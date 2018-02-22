@@ -26,11 +26,18 @@ public class RobotMap {
 	public static final int INTAKE_RIGHT = 16;
 
 	// Elevator
-	public static final int ELEVATOR_MOTOR_A = 17;
-	public static final int ELEVATOR_MOTOR_B = 18;
+	public static final int ELEVATOR_MOTOR = 17;
 
-	// If you are using multiple modules, make sure to define both the port
-	// number and the module. For example you with a rangefinder:
-	// public static int rangefinderPort = 1;
-	// public static int rangefinderModule = 1;
+	/**
+	 * The stall current of the elevator when fully extended
+	 */
+	public static final double ELEVATOR_TOPSTALL_AMPS = 40; // TODO measure
+	/**
+	 * The power (-1 to 1) to give to the elevator for it to hold position with a
+	 * POWER CUBE
+	 */
+	public static final double ELEVATOR_HOLD_PCT = 0; // TODO measure
+
+	public static final double ELEVATOR_HOLD_TIME = 3;
+
 }

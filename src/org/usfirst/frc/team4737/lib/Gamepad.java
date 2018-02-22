@@ -28,7 +28,7 @@ public abstract class Gamepad {
 
 	}
 
-	private abstract class Axis {
+	public abstract class Axis {
 
 		protected final Gamepad gamepad;
 

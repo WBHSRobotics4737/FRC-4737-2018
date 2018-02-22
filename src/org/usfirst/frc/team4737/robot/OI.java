@@ -9,9 +9,13 @@ package org.usfirst.frc.team4737.robot;
 
 import org.usfirst.frc.team4737.lib.Gamepad;
 import org.usfirst.frc.team4737.lib.LogitechGamepad;
+import org.usfirst.frc.team4737.robot.commands.ControlElevator;
+import org.usfirst.frc.team4737.robot.commands.ControlIntake;
 import org.usfirst.frc.team4737.robot.commands.ReverseIntake;
 import org.usfirst.frc.team4737.robot.commands.RunIntake;
+import org.usfirst.frc.team4737.robot.commands.TeleopTankDrive;
 
+import edu.wpi.first.wpilibj.buttons.Trigger;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -45,15 +49,38 @@ public class OI {
 	// Start the command when the button is released and let it run the command
 	// until it is finished as determined by it's isFinished method.
 	// button.whenReleased(new ExampleCommand());
-	
-	public Gamepad controller;
-	
+
+	public Gamepad driver;
+	public Gamepad operator;
+
 	public OI() {
-		controller = new LogitechGamepad(0);
-		
-		controller.getButton("A").whileHeld(new RunIntake());
-		controller.getButton("B").whileHeld(new ReverseIntake());
-		
+		driver = new LogitechGamepad(0);
+		operator = new LogitechGamepad(1);
+
+		// User override to take control of the intake
+		new Trigger() {
+			@Override
+			public boolean get() {
+				return operator.getAxis("LT").get() != 0 || operator.getAxis("RT").get() != 0;
+			}
+		}.whileActive(new ControlIntake());
+
+		// User override to take control of driving
+		new Trigger() {
+			@Override
+			public boolean get() {
+				return driver.getThumbstick("LS").Y.get() != 0 || driver.getThumbstick("RS").Y.get() != 0;
+			}
+		}.whileActive(new TeleopTankDrive());
+
+		// User override to take control of the elevator
+		new Trigger() {
+			@Override
+			public boolean get() {
+				return operator.getAxis("LS_Y").get() != 0;
+			}
+		}.whileActive(new ControlElevator());
+
 	}
-	
+
 }

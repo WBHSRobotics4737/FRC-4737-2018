@@ -3,37 +3,52 @@ package org.usfirst.frc.team4737.robot.subsystems;
 import org.usfirst.frc.team4737.robot.RobotMap;
 import org.usfirst.frc.team4737.robot.commands.StopElevator;
 
+import com.ctre.phoenix.motorcontrol.ControlMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
 import edu.wpi.first.wpilibj.command.Subsystem;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
  */
 public class Elevator extends Subsystem {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
+	private WPI_TalonSRX motor;
 
-	private WPI_TalonSRX motorA;
-	private WPI_TalonSRX motorB;
+	private double current;
+	private double lastCurrent;
+	private final double retention = 0.1;
 
 	public Elevator() {
-		motorA = new WPI_TalonSRX(RobotMap.ELEVATOR_MOTOR_A);
-		motorB = new WPI_TalonSRX(RobotMap.ELEVATOR_MOTOR_B);
+		motor = new WPI_TalonSRX(RobotMap.ELEVATOR_MOTOR);
 	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
 		setDefaultCommand(new StopElevator());
+	}
+
+	@Override
+	public void periodic() {
+		// Measure current and apply a basic noise filter
+		double temp = current;
+		current = motor.getOutputCurrent() * (1 - retention) + lastCurrent * retention;
+		lastCurrent = temp;
+
+		SmartDashboard.putNumber("elevator_current", current);
+	}
+
+	public double getMotorCurrent() {
+		return current;
 	}
 
 	/**
 	 * 
 	 * @param speed
-	 *            ranges from -1 to 1
+	 *            ranges from -1.0 to 1.0
 	 */
 	public void setSpeed(double speed) {
-		// TODO
+		motor.set(ControlMode.PercentOutput, speed);
 	}
+
 }

@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class StopElevator extends Command {
+public class ControlIntake extends Command {
 
-	public StopElevator() {
-		requires(Robot.ELEVATOR);
+	public ControlIntake() {
+		requires(Robot.INTAKE);
 	}
 
 	// Called just before this Command runs the first time
@@ -19,7 +19,7 @@ public class StopElevator extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.ELEVATOR.setSpeed(0);
+		Robot.INTAKE.setSpeed(-Robot.OI.operator.getAxis("LT").get() + Robot.OI.operator.getAxis("RT").get());
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -34,6 +34,6 @@ public class StopElevator extends Command {
 	// Called when another command which requires one or more of the same
 	// subsystems is scheduled to run
 	protected void interrupted() {
+		Robot.INTAKE.setSpeed(0);
 	}
-
 }
