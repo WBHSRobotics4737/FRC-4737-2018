@@ -8,7 +8,7 @@
 package org.usfirst.frc.team4737.robot;
 
 import org.usfirst.frc.team4737.lib.Gamepad;
-import org.usfirst.frc.team4737.lib.LogitechGamepad;
+import org.usfirst.frc.team4737.lib.F310Gamepad;
 import org.usfirst.frc.team4737.robot.commands.ControlElevator;
 import org.usfirst.frc.team4737.robot.commands.ControlIntake;
 import org.usfirst.frc.team4737.robot.commands.ReverseIntake;
@@ -54,8 +54,8 @@ public class OI {
 	public Gamepad operator;
 
 	public OI() {
-		driver = new LogitechGamepad(0);
-		operator = new LogitechGamepad(1);
+		driver = new F310Gamepad(0);
+		operator = new F310Gamepad(1);
 
 		// User override to take control of the intake
 		new Trigger() {

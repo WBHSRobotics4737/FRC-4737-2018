@@ -1,29 +1,29 @@
 package org.usfirst.frc.team4737.lib;
 
-public class LogitechGamepad extends Gamepad {
+public class F310Gamepad extends Gamepad {
 
-	private class LogitechGamepadTriggerAxis extends GamepadAxis {
-
-		private final boolean positive;
-
-		public LogitechGamepadTriggerAxis(Gamepad gamepad, String name, int axis, boolean positive) {
-			super(gamepad, name, axis);
-
-			this.positive = positive;
-		}
-
-		@Override
-		public double get() {
-			double value = super.get();
-			if (value > 0 && positive)
-				return value;
-			else if (value < 0 && !positive)
-				return -value;
-			else
-				return 0;
-		}
-
-	}
+//	private class LogitechGamepadTriggerAxis extends GamepadAxis {
+//
+//		private final boolean positive;
+//
+//		public LogitechGamepadTriggerAxis(Gamepad gamepad, String name, int axis, boolean positive) {
+//			super(gamepad, name, axis);
+//
+//			this.positive = positive;
+//		}
+//
+//		@Override
+//		public double get() {
+//			double value = super.get();
+//			if (value > 0 && positive)
+//				return value;
+//			else if (value < 0 && !positive)
+//				return -value;
+//			else
+//				return 0;
+//		}
+//
+//	}
 
 	public final GamepadButton A;
 	public final GamepadButton B;
@@ -39,12 +39,14 @@ public class LogitechGamepad extends Gamepad {
 	public final Thumbstick LS;
 	public final Thumbstick RS;
 
-	public final LogitechGamepadTriggerAxis LT;
-	public final LogitechGamepadTriggerAxis RT;
+//	public final LogitechGamepadTriggerAxis LT;
+//	public final LogitechGamepadTriggerAxis RT;
+	public final GamepadAxis LT;
+	public final GamepadAxis RT;
 
 	public final DPad DPAD;
 
-	public LogitechGamepad(int usbPort) {
+	public F310Gamepad(int usbPort) {
 		super(usbPort, "LogitechGamepad");
 		A = new GamepadButton(this, "A", 1);
 		B = new GamepadButton(this, "B", 2);
@@ -60,11 +62,13 @@ public class LogitechGamepad extends Gamepad {
 		R3 = new GamepadButton(this, "R3", 10);
 		registerButton(R3, "RS");
 
-		LS = new Thumbstick(this, "LS", 1, 2);
+		LS = new Thumbstick(this, "LS", 0, 1);
 		RS = new Thumbstick(this, "RS", 4, 5);
 
-		LT = new LogitechGamepadTriggerAxis(this, "LT", 3, true);
-		RT = new LogitechGamepadTriggerAxis(this, "RT", 3, false);
+//		LT = new LogitechGamepadTriggerAxis(this, "LT", 2, true);
+//		RT = new LogitechGamepadTriggerAxis(this, "RT", 3, false);
+		LT = new GamepadAxis(this, "LT", 2);
+		RT = new GamepadAxis(this, "RT", 3);
 
 		DPAD = new DPad(this, "DPAD", 0);
 	}
