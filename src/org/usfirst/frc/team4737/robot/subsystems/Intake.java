@@ -15,15 +15,12 @@ public class Intake extends Subsystem {
 	// Put methods for controlling this subsystem
 	// here. Call these from Commands.
 
-	private WPI_TalonSRX leftMotorMaster;
-	private WPI_TalonSRX rightMotorSlave;
+	private WPI_TalonSRX leftMotor;
+	private WPI_TalonSRX rightMotor;
 
 	public Intake() {
-		leftMotorMaster = new WPI_TalonSRX(RobotMap.INTAKE_LEFT);
-		rightMotorSlave = new WPI_TalonSRX(RobotMap.INTAKE_RIGHT);
-
-		rightMotorSlave.setInverted(true);
-		rightMotorSlave.follow(leftMotorMaster);
+		leftMotor = new WPI_TalonSRX(RobotMap.INTAKE_LEFT);
+		rightMotor = new WPI_TalonSRX(RobotMap.INTAKE_RIGHT);
 	}
 
 	public void initDefaultCommand() {
@@ -37,7 +34,12 @@ public class Intake extends Subsystem {
 	 *            ranges from -1 to 1.
 	 */
 	public void setSpeed(double speed) {
-		leftMotorMaster.set(speed);
+		setLRSpeed(speed, speed);
+	}
+	
+	public void setLRSpeed(double left, double right) {
+		leftMotor.set(left);
+		rightMotor.set(right);
 	}
 
 }

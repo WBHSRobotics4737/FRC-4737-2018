@@ -19,7 +19,9 @@ public class ControlIntake extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.INTAKE.setSpeed(-Robot.OI.operator.getAxis("LT").get() + Robot.OI.operator.getAxis("RT").get());
+		double speed = -Robot.OI.operator.getAxis("LT").get() + Robot.OI.operator.getAxis("RT").get();
+		double twist = Robot.OI.operator.getAxis("RS_X").get();
+		Robot.INTAKE.setLRSpeed(speed - twist, speed + twist);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()
@@ -36,4 +38,5 @@ public class ControlIntake extends Command {
 	protected void interrupted() {
 		Robot.INTAKE.setSpeed(0);
 	}
+	
 }

@@ -30,8 +30,8 @@ public class Drivetrain extends Subsystem {
 		leftBackSlave.follow(leftFrontMaster);
 		rightBackSlave.follow(rightFrontMaster);
 		
-		leftFrontMaster.configOpenloopRamp(0.5, 30);
-		rightFrontMaster.configOpenloopRamp(0.5, 30);
+		leftFrontMaster.configOpenloopRamp(0.25, 30);
+		rightFrontMaster.configOpenloopRamp(0.25, 30);
 
 		drive = new DifferentialDrive(leftFrontMaster, rightFrontMaster);
 	}

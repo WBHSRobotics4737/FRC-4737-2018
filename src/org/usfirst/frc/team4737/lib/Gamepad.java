@@ -94,7 +94,7 @@ public abstract class Gamepad {
 
 	public class DPad {
 
-		private class DPadButton extends Button {
+		public class DPadButton extends Button {
 
 			private final DPad dpad;
 			private final int degree;
@@ -121,7 +121,7 @@ public abstract class Gamepad {
 
 		}
 
-		private class DPadAxis extends Axis {
+		public class DPadAxis extends Axis {
 
 			private DPadButton[] negative;
 			private DPadButton[] positive;
@@ -195,6 +195,8 @@ public abstract class Gamepad {
 					new DPadButton[] { RIGHT, DOWN_RIGHT, UP_RIGHT });
 			Y = new DPadAxis(gamepad, name + "_Y", new DPadButton[] { DOWN, DOWN_LEFT, DOWN_RIGHT },
 					new DPadButton[] { UP, UP_LEFT, UP_RIGHT });
+			
+			gamepad.registerDPad(this, name);
 		}
 
 		/**
@@ -294,7 +296,7 @@ public abstract class Gamepad {
 	 * @return Returns a button mapped with the given name
 	 */
 	public Button getButton(String name) {
-		return buttonMap.get(name);
+		return buttonMap.get(name.toLowerCase());
 	}
 
 	/**
@@ -306,7 +308,7 @@ public abstract class Gamepad {
 	 * @return Returns an axis mapped with the given name
 	 */
 	public Axis getAxis(String name) {
-		return axisMap.get(name);
+		return axisMap.get(name.toLowerCase());
 	}
 
 	/**
@@ -319,7 +321,7 @@ public abstract class Gamepad {
 	 * @return Returns a thumbstick mapped with the given name
 	 */
 	public Thumbstick getThumbstick(String name) {
-		return thumbstickMap.get(name);
+		return thumbstickMap.get(name.toLowerCase());
 	}
 
 	/**
@@ -331,7 +333,7 @@ public abstract class Gamepad {
 	 * @return Returns a button mapped with the given name
 	 */
 	public DPad getDPad(String name) {
-		return dpadMap.get(name);
+		return dpadMap.get(name.toLowerCase());
 	}
 
 }

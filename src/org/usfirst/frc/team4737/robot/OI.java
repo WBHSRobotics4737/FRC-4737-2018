@@ -14,6 +14,7 @@ import org.usfirst.frc.team4737.robot.commands.elevator.ControlElevator;
 import org.usfirst.frc.team4737.robot.commands.intake.ControlIntake;
 import org.usfirst.frc.team4737.robot.commands.intake.ReverseIntake;
 import org.usfirst.frc.team4737.robot.commands.intake.RunIntake;
+import org.usfirst.frc.team4737.robot.commands.intake.TwistIntake;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
@@ -61,7 +62,8 @@ public class OI {
 		new Trigger() {
 			@Override
 			public boolean get() {
-				return operator.getAxis("LT").get() != 0 || operator.getAxis("RT").get() != 0;
+				return operator.getAxis("LT").get() != 0 || operator.getAxis("RT").get() != 0
+						|| operator.getAxis("RS_X").get() != 0;
 			}
 		}.whileActive(new ControlIntake());
 
@@ -80,6 +82,9 @@ public class OI {
 				return operator.getAxis("LS_Y").get() != 0;
 			}
 		}.whileActive(new ControlElevator());
+		
+		//		operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
+		//		operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));
 
 	}
 
