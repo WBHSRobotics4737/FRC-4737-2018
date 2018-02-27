@@ -45,5 +45,8 @@ public class RobotMap {
 	public static final double ELEVATOR_MAX_DOWN_SPEED = -0.6; // TODO tune
 	
 	public static final double DRIVE_SLOW_SCALE = 0.5;
+	
+	public static final double AUTO_BLIND_TIME = 5;
+	public static final double AUTO_BLIND_SPEED = 0.3;
 
 }

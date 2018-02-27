@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4737.robot;
 
+import org.usfirst.frc.team4737.robot.commands.drivetrain.AutoBlindBaseline;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.RelaxDrivetrain;
 import org.usfirst.frc.team4737.robot.subsystems.Climber;
 import org.usfirst.frc.team4737.robot.subsystems.Drivetrain;
@@ -34,8 +35,8 @@ public class Robot extends TimedRobot {
 	public static final Climber CLIMBER = new Climber();
 	public static final OI OI = new OI();
 
-	Command m_autonomousCommand;
-	SendableChooser<Command> m_chooser = new SendableChooser<>();
+	private Command autonomousCommand;
+	private SendableChooser<Command> chooser = new SendableChooser<>();
 
 	/**
 	 * This function is run when the robot is first started up and should be used
@@ -43,9 +44,9 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
-		// m_chooser.addDefault("Default Auto", new ExampleCommand());
-		// chooser.addObject("My Auto", new MyAutoCommand());
-		SmartDashboard.putData("Auto mode", m_chooser);
+		chooser.addDefault("No Auto", null);
+		chooser.addObject("Blind Baseline", new AutoBlindBaseline());
+		SmartDashboard.putData("Auto mode", chooser);
 	}
 
 	/**
@@ -77,7 +78,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
-		m_autonomousCommand = m_chooser.getSelected();
+		autonomousCommand = chooser.getSelected();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
@@ -87,8 +88,8 @@ public class Robot extends TimedRobot {
 		 */
 
 		// schedule the autonomous command (example)
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.start();
+		if (autonomousCommand != null) {
+			autonomousCommand.start();
 		}
 	}
 
@@ -106,8 +107,8 @@ public class Robot extends TimedRobot {
 		// teleop starts running. If you want the autonomous to
 		// continue until interrupted by another command, remove
 		// this line or comment it out.
-		if (m_autonomousCommand != null) {
-			m_autonomousCommand.cancel();
+		if (autonomousCommand != null) {
+			autonomousCommand.cancel();
 		}
 	}
 
