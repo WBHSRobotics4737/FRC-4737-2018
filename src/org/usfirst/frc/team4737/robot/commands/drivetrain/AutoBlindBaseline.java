@@ -1,43 +1,35 @@
 package org.usfirst.frc.team4737.robot.commands.drivetrain;
 
-import org.usfirst.frc.team4737.robot.Robot;
 import org.usfirst.frc.team4737.robot.RobotMap;
 
-import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoBlindBaseline extends Command {
+public class AutoBlindBaseline extends CommandGroup {
 
-	public AutoBlindBaseline() {
-		requires(Robot.DRIVETRAIN);
-	}
+    public AutoBlindBaseline() {
+        // Add Commands here:
+        // e.g. addSequential(new Command1());
+        //      addSequential(new Command2());
+        // these will run in order.
 
-	// Called just before this Command runs the first time
-	protected void initialize() {
-		Robot.DRIVETRAIN.setBrakeMode();
-	}
+        // To run multiple commands at the same time,
+        // use addParallel()
+        // e.g. addParallel(new Command1());
+        //      addSequential(new Command2());
+        // Command1 and Command2 will run in parallel.
 
-	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
-		Robot.DRIVETRAIN.arcadeDrive(RobotMap.AUTO_BLIND_SPEED, 0);
-	}
-
-	// Make this return true when this Command no longer needs to run execute()
-	protected boolean isFinished() {
-		return this.timeSinceInitialized() > RobotMap.AUTO_BLIND_TIME;
-	}
-
-	// Called once after isFinished returns true
-	protected void end() {
-		Robot.DRIVETRAIN.arcadeDrive(0, 0);
-	}
-
-	// Called when another command which requires one or more of the same
-	// subsystems is scheduled to run
-	protected void interrupted() {
-		this.end();
-	}
-
+        // A command group will require all of the subsystems that each member
+        // would require.
+        // e.g. if Command1 requires chassis, and Command2 requires arm,
+        // a CommandGroup containing them would require both the chassis and the
+        // arm.
+    	
+    	addSequential(new AutoBlindAccelerate(0.1, 0, RobotMap.AUTO_BLIND_SPEED));
+    	addSequential(new AutoBlindDrive(RobotMap.AUTO_BLIND_TIME, RobotMap.AUTO_BLIND_SPEED));
+    	addSequential(new AutoBlindAccelerate(0.1, RobotMap.AUTO_BLIND_SPEED, 0));
+    }
+    
 }

@@ -33,7 +33,8 @@ public class Robot extends TimedRobot {
 	public static final Elevator ELEVATOR = new Elevator();
 	public static final Intake INTAKE = new Intake();
 	public static final Climber CLIMBER = new Climber();
-	public static final OI OI = new OI();
+	
+	public static final OI OI = new OI(); // Must initialize after subsystems
 
 	private Command autonomousCommand;
 	private SendableChooser<Command> chooser = new SendableChooser<>();
