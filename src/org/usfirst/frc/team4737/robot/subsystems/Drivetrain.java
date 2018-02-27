@@ -29,7 +29,7 @@ public class Drivetrain extends Subsystem {
 
 		leftBackSlave.follow(leftFrontMaster);
 		rightBackSlave.follow(rightFrontMaster);
-		
+
 		leftFrontMaster.configOpenloopRamp(0.25, 30);
 		rightFrontMaster.configOpenloopRamp(0.25, 30);
 
@@ -47,14 +47,14 @@ public class Drivetrain extends Subsystem {
 		rightFrontMaster.setNeutralMode(NeutralMode.Brake);
 		rightBackSlave.setNeutralMode(NeutralMode.Brake);
 	}
-	
+
 	public void setCoastMode() {
 		leftFrontMaster.setNeutralMode(NeutralMode.Coast);
 		leftBackSlave.setNeutralMode(NeutralMode.Coast);
 		rightFrontMaster.setNeutralMode(NeutralMode.Coast);
 		rightBackSlave.setNeutralMode(NeutralMode.Coast);
 	}
-	
+
 	/**
 	 * Controls the drivetrain using two tank-drive joystick inputs
 	 * 
@@ -65,6 +65,10 @@ public class Drivetrain extends Subsystem {
 	 */
 	public void tankDrive(double leftInput, double rightInput) {
 		drive.tankDrive(leftInput, rightInput);
+	}
+	
+	public void arcadeDrive(double throttle, double steer) {
+		drive.arcadeDrive(throttle, steer);
 	}
 
 }

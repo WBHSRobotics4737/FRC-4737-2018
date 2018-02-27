@@ -8,13 +8,12 @@
 package org.usfirst.frc.team4737.robot;
 
 import org.usfirst.frc.team4737.lib.Gamepad;
+import org.usfirst.frc.team4737.lib.XboxController;
 import org.usfirst.frc.team4737.lib.F310Gamepad;
-import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopRacingDrive;
 import org.usfirst.frc.team4737.robot.commands.elevator.ControlElevator;
+import org.usfirst.frc.team4737.robot.commands.elevator.RelaxElevator;
 import org.usfirst.frc.team4737.robot.commands.intake.ControlIntake;
-import org.usfirst.frc.team4737.robot.commands.intake.ReverseIntake;
-import org.usfirst.frc.team4737.robot.commands.intake.RunIntake;
-import org.usfirst.frc.team4737.robot.commands.intake.TwistIntake;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
@@ -55,12 +54,11 @@ public class OI {
 	public Gamepad operator;
 
 	public OI() {
-		driver = new F310Gamepad(0);
+		driver = new XboxController(0);
 		operator = new F310Gamepad(1);
 
 		// User override to take control of the intake
 		new Trigger() {
-			@Override
 			public boolean get() {
 				return operator.getAxis("LT").get() != 0 || operator.getAxis("RT").get() != 0
 						|| operator.getAxis("RS_X").get() != 0;
@@ -69,19 +67,20 @@ public class OI {
 
 		// User override to take control of driving
 		new Trigger() {
-			@Override
 			public boolean get() {
 				return driver.getThumbstick("LS").Y.get() != 0 || driver.getThumbstick("RS").Y.get() != 0;
 			}
-		}.whileActive(new TeleopTankDrive());
+		}.whileActive(new TeleopRacingDrive());
 
 		// User override to take control of the elevator
 		new Trigger() {
-			@Override
 			public boolean get() {
 				return operator.getAxis("LS_Y").get() != 0;
 			}
 		}.whileActive(new ControlElevator());
+		
+		// Allow operator to instantly relax elevator in case of motor overheat
+		operator.getButton("Y").whileHeld(new RelaxElevator());
 		
 		//		operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
 		//		operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));

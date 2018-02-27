@@ -62,13 +62,17 @@ public class F310Gamepad extends Gamepad {
 		R3 = new GamepadButton(this, "R3", 10);
 		registerButton(R3, "RS");
 
-		LS = new Thumbstick(this, "LS", 0, 1);
-		RS = new Thumbstick(this, "RS", 4, 5);
+		LS = new Thumbstick(this, "LS", 0, 1, false, true);
+		LS.X.setDeadzone(0.1);
+		LS.Y.setDeadzone(0.1);
+		RS = new Thumbstick(this, "RS", 4, 5, false, true);
+		RS.X.setDeadzone(0.1);
+		RS.Y.setDeadzone(0.1);
 
 //		LT = new LogitechGamepadTriggerAxis(this, "LT", 2, true);
 //		RT = new LogitechGamepadTriggerAxis(this, "RT", 3, false);
-		LT = new GamepadAxis(this, "LT", 2);
-		RT = new GamepadAxis(this, "RT", 3);
+		LT = new GamepadAxis(this, "LT", 2, false);
+		RT = new GamepadAxis(this, "RT", 3, false);
 
 		DPAD = new DPad(this, "DPAD", 0);
 	}

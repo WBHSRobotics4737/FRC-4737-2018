@@ -1,16 +1,16 @@
 package org.usfirst.frc.team4737.robot.commands.drivetrain;
 
 import org.usfirst.frc.team4737.robot.Robot;
+import org.usfirst.frc.team4737.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
  *
  */
-public class TeleopTankDrive extends Command {
+public class TeleopRacingDrive extends Command {
 
-	public TeleopTankDrive() {
-		// Use requires() here to declare subsystem dependencies
+	public TeleopRacingDrive() {
 		requires(Robot.DRIVETRAIN);
 	}
 
@@ -21,10 +21,12 @@ public class TeleopTankDrive extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		boolean slow = Robot.OI.driver.getButton("RB").get();
-		Robot.DRIVETRAIN.tankDrive(
-				-Robot.OI.driver.getThumbstick("LS").Y.get() * (slow ? 0.6 : 1),
-				-Robot.OI.driver.getThumbstick("RS").Y.get() * (slow ? 0.6 : 1));
+		boolean slow = Robot.OI.driver.getButton("LB").get();
+		double throttle = (Robot.OI.driver.getAxis("RT").get() - Robot.OI.driver.getAxis("LT").get())
+				* (slow ? RobotMap.DRIVE_SLOW_SCALE : 1);
+		double steer = Robot.OI.driver.getThumbstick("LS").X.get() * (slow ? RobotMap.DRIVE_SLOW_SCALE : 1);
+		
+		Robot.DRIVETRAIN.arcadeDrive(throttle, steer);
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

@@ -15,6 +15,10 @@ package org.usfirst.frc.team4737.robot;
  */
 public class RobotMap {
 
+	// ################
+	// TalonSRX CAN IDs
+	// ################
+
 	// Drivetrain
 	public static final int DRIVE_LEFT_MASTER = 11;
 	public static final int DRIVE_LEFT_SLAVE = 12;
@@ -28,16 +32,18 @@ public class RobotMap {
 	// Elevator
 	public static final int ELEVATOR_MOTOR = 17;
 
-	/**
-	 * The stall current of the elevator when fully extended
-	 */
-	public static final double ELEVATOR_TOPSTALL_AMPS = 40; // TODO measure
-	/**
-	 * The power (-1 to 1) to give to the elevator for it to hold position with a
-	 * POWER CUBE
-	 */
-	public static final double ELEVATOR_HOLD_PCT = 0; // TODO measure
+	// #########
+	// Constants
+	// #########
 
-	public static final double ELEVATOR_HOLD_TIME = 3;
+	/**
+	 * The voltage to give to the elevator for it to hold constant position with a
+	 * cube
+	 */
+	public static final double ELEVATOR_HOLD_V = 1; // TODO measure
+	public static final double ELEVATOR_HOLD_TIME = 4; // TODO tune
+	public static final double ELEVATOR_MAX_DOWN_SPEED = -0.6; // TODO tune
+	
+	public static final double DRIVE_SLOW_SCALE = 0.5;
 
 }

@@ -4,7 +4,6 @@ import org.usfirst.frc.team4737.robot.Robot;
 import org.usfirst.frc.team4737.robot.RobotMap;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -17,6 +16,7 @@ public class ControlElevator extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		Robot.ELEVATOR.setBrakeMode();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -25,19 +25,27 @@ public class ControlElevator extends Command {
 		double input = Robot.OI.operator.getAxis("LS_Y").get();
 
 		// Check if we're hitting the top
-		if (input > 0 && Robot.ELEVATOR.getMotorCurrent() > RobotMap.ELEVATOR_TOPSTALL_AMPS) {
-			input = 0;
+		//		if (input > 0 && Robot.ELEVATOR.isAtTop()) {
+		//			input = 0;
+		//		}
+
+		// Make sure we don't go down too fast
+		if (input < RobotMap.ELEVATOR_MAX_DOWN_SPEED) {
+			input = RobotMap.ELEVATOR_MAX_DOWN_SPEED;
 		}
-
-		Robot.ELEVATOR.setSpeed(input + RobotMap.ELEVATOR_HOLD_PCT);
-
-		SmartDashboard.putNumber("elevator_input", input);
 
 		// Start hold command if no input
 		if (input == 0) {
-			new HoldElevator().start();
-			this.cancel();
+			if (this.isRunning()) {
+				new HoldElevator().start();
+				this.cancel();
+			}
+			return;
 		}
+
+		// Set elevator speed
+		Robot.ELEVATOR.setSpeed(input);
+
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

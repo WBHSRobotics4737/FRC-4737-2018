@@ -55,10 +55,13 @@ public abstract class Gamepad {
 		private final int axis;
 
 		private double deadzone;
+		
+		private boolean inverted;
 
-		public GamepadAxis(Gamepad gamepad, String name, int axis) {
+		public GamepadAxis(Gamepad gamepad, String name, int axis, boolean inverted) {
 			super(gamepad, name);
 			this.axis = axis;
+			this.inverted = inverted;
 
 			gamepad.registerAxis(this, name);
 		}
@@ -75,7 +78,7 @@ public abstract class Gamepad {
 
 		@Override
 		public double get() {
-			double raw = getRaw();
+			double raw = inverted ? -getRaw() : getRaw();
 			if (raw < -deadzone) {
 				return scale(raw, -1, -deadzone, -1, 0);
 			} else if (raw > deadzone) {
@@ -223,9 +226,9 @@ public abstract class Gamepad {
 
 		private String name;
 
-		public Thumbstick(Gamepad gamepad, String name, int axisX, int axisY) {
-			X = new GamepadAxis(gamepad, name + "_X", axisX);
-			Y = new GamepadAxis(gamepad, name + "_Y", axisY);
+		public Thumbstick(Gamepad gamepad, String name, int axisX, int axisY, boolean invertX, boolean invertY) {
+			X = new GamepadAxis(gamepad, name + "_X", axisX, invertX);
+			Y = new GamepadAxis(gamepad, name + "_Y", axisY, invertY);
 
 			this.name = name;
 
