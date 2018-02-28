@@ -9,10 +9,7 @@ package org.usfirst.frc.team4737.robot;
 
 import org.usfirst.frc.team4737.robot.commands.drivetrain.AutoBlindBaseline;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.RelaxDrivetrain;
-import org.usfirst.frc.team4737.robot.subsystems.Climber;
-import org.usfirst.frc.team4737.robot.subsystems.Drivetrain;
-import org.usfirst.frc.team4737.robot.subsystems.Elevator;
-import org.usfirst.frc.team4737.robot.subsystems.Intake;
+import org.usfirst.frc.team4737.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
@@ -33,6 +30,7 @@ public class Robot extends TimedRobot {
 	public static final Elevator ELEVATOR = new Elevator();
 	public static final Intake INTAKE = new Intake();
 	public static final Climber CLIMBER = new Climber();
+	public static final ControlSystem CONTROLSYSTEM = new ControlSystem();
 	
 	public static final OI OI = new OI(); // Must initialize after subsystems
 
