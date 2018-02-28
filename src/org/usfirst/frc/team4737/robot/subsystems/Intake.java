@@ -33,7 +33,7 @@ public class Intake extends Subsystem {
 	public void setSpeed(double speed) {
 		setLRSpeed(speed, speed);
 	}
-	
+
 	public void setLRSpeed(double left, double right) {
 		leftMotor.set(left);
 		rightMotor.set(right);

@@ -15,9 +15,9 @@ package org.usfirst.frc.team4737.robot;
  */
 public class RobotMap {
 
-	// ################
-	// TalonSRX CAN IDs
-	// ################
+	// #####################
+	// Actuator IDs/Channels
+	// #####################
 
 	// Drivetrain
 	public static final int DRIVE_LEFT_MASTER = 11;
@@ -28,6 +28,13 @@ public class RobotMap {
 	// Intake
 	public static final int INTAKE_LEFT = 15;
 	public static final int INTAKE_RIGHT = 16;
+
+	public static final int INTAKE_LEFT_PISTON_MODULE = 0;
+	public static final int INTAKE_LEFT_PISTON_FORWARD_CHANNEL = 0;
+	public static final int INTAKE_LEFT_PISTON_REVERSE_CHANNEL = 1;
+	public static final int INTAKE_RIGHT_PISTON_MODULE = 0;
+	public static final int INTAKE_RIGHT_PISTON_FORWARD_CHANNEL = 2;
+	public static final int INTAKE_RIGHT_PISTON_REVERSE_CHANNEL = 3;
 
 	// Elevator
 	public static final int ELEVATOR_MOTOR = 17;

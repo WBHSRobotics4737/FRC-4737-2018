@@ -1,4 +1,4 @@
-package org.usfirst.frc.team4737.robot.commands.intake;
+package org.usfirst.frc.team4737.robot.commands.intakegrip;
 
 import org.usfirst.frc.team4737.robot.Robot;
 
@@ -7,14 +7,10 @@ import edu.wpi.first.wpilibj.command.Command;
 /**
  *
  */
-public class TwistIntake extends Command {
+public class StopIntakeGrip extends Command {
 
-	private double speed;
-
-	public TwistIntake(double speed) {
-		requires(Robot.INTAKE);
-
-		this.speed = speed;
+	public StopIntakeGrip() {
+		requires(Robot.INTAKEGRIP);
 	}
 
 	// Called just before this Command runs the first time
@@ -23,7 +19,7 @@ public class TwistIntake extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
-		Robot.INTAKE.setLRSpeed(speed, -speed);
+		Robot.INTAKEGRIP.disablePneumatics();
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

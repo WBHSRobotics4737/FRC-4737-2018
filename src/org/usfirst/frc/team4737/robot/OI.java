@@ -10,10 +10,10 @@ package org.usfirst.frc.team4737.robot;
 import org.usfirst.frc.team4737.lib.Gamepad;
 import org.usfirst.frc.team4737.lib.XboxController;
 import org.usfirst.frc.team4737.lib.F310Gamepad;
-import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopRacingDrive;
-import org.usfirst.frc.team4737.robot.commands.elevator.ControlElevator;
-import org.usfirst.frc.team4737.robot.commands.elevator.RelaxElevator;
-import org.usfirst.frc.team4737.robot.commands.intake.ControlIntake;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.*;
+import org.usfirst.frc.team4737.robot.commands.elevator.*;
+import org.usfirst.frc.team4737.robot.commands.intake.*;
+import org.usfirst.frc.team4737.robot.commands.intakegrip.*;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
 
@@ -78,12 +78,16 @@ public class OI {
 				return operator.getAxis("LS_Y").get() != 0;
 			}
 		}.whileActive(new ControlElevator());
-		
+
 		// Allow operator to instantly relax elevator in case of motor overheat
 		operator.getButton("Y").whileHeld(new RelaxElevator());
-		
-		//		operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
-		//		operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));
+
+		// Take control of intake grip
+		operator.getButton("A").whileHeld(new ControlIntakeGrip());
+		operator.getButton("B").whileHeld(new ControlIntakeGrip());
+
+		// operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
+		// operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));
 
 	}
 
