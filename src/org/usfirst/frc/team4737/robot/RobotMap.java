@@ -39,14 +39,39 @@ public class RobotMap {
 	/**
 	 * The voltage to give to the elevator for it to hold constant position with a
 	 * cube
+	 * 
+	 * Increase this value if the elevator droops too much while holding the cube
 	 */
-	public static final double ELEVATOR_HOLD_V = 1; // TODO measure
+	public static final double ELEVATOR_HOLD_V = 1;
+	/**
+	 * The number of seconds to keep the elevator in place before letting the motor
+	 * relax. To disable this, set the value to 0.1
+	 */
 	public static final double ELEVATOR_HOLD_TIME = 4; // TODO tune
-	public static final double ELEVATOR_MAX_DOWN_SPEED = -0.6; // TODO tune
-	
+	/**
+	 * The maximum speed the elevator is allowed to go down. This prevents
+	 * unspooling too quickly, which causes the rope to fall off the spool.
+	 */
+	public static final double ELEVATOR_MAX_DOWN_SPEED = -0.6;
+
+	/**
+	 * The value to multiply the throttle by when slow driving is enabled
+	 */
 	public static final double DRIVE_SLOW_SCALE = 0.5;
-	
+
+	/*
+	 * Adjust these variables to tune autonomous
+	 */
 	public static final double AUTO_BLIND_TIME = 5;
 	public static final double AUTO_BLIND_SPEED = 0.3;
+	/**
+	 * The steering value to use in autonomous to counteract any natural tendencies
+	 * for the robot to veer left or right. A positive value (should) steer the
+	 * robot to the right, and negative to the left.
+	 * 
+	 * Tune this value accordingly. It may need to be adjusted throughout the
+	 * competition.
+	 */
+	public static final double AUTO_BLIND_STEER = 0;
 
 }

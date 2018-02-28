@@ -30,6 +30,7 @@ public class Elevator extends Subsystem {
 		// Prevent motor from stalling too hard
 		motor.configContinuousCurrentLimit(30, 30);
 		motor.enableCurrentLimit(true);
+		
 		// Use voltage compensation to keep inputs reliable
 //		motor.configVoltageCompSaturation(12, 30);
 //		motor.enableVoltageCompensation(true);

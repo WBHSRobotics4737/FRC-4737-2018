@@ -12,9 +12,6 @@ import edu.wpi.first.wpilibj.command.Subsystem;
  */
 public class Intake extends Subsystem {
 
-	// Put methods for controlling this subsystem
-	// here. Call these from Commands.
-
 	private WPI_TalonSRX leftMotor;
 	private WPI_TalonSRX rightMotor;
 
@@ -31,7 +28,7 @@ public class Intake extends Subsystem {
 	/**
 	 * 
 	 * @param speed
-	 *            ranges from -1 to 1.
+	 *            The speed (between -1.0 and 1.0) to run the intake motors at.
 	 */
 	public void setSpeed(double speed) {
 		setLRSpeed(speed, speed);

@@ -22,12 +22,9 @@ public class ControlElevator extends Command {
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		// Control elevator movement, holding it in place by default
+		
+		// Grab input
 		double input = Robot.OI.operator.getAxis("LS_Y").get();
-
-		// Check if we're hitting the top
-		//		if (input > 0 && Robot.ELEVATOR.isAtTop()) {
-		//			input = 0;
-		//		}
 
 		// Make sure we don't go down too fast
 		if (input < RobotMap.ELEVATOR_MAX_DOWN_SPEED) {
@@ -45,7 +42,6 @@ public class ControlElevator extends Command {
 
 		// Set elevator speed
 		Robot.ELEVATOR.setSpeed(input);
-
 	}
 
 	// Make this return true when this Command no longer needs to run execute()

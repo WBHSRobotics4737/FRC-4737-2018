@@ -5,7 +5,10 @@ import org.usfirst.frc.team4737.robot.Robot;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
- *
+ * Default command for the elevator. Disables all motor output, but puts
+ * elevator in brake mode to prevent it from falling too fast. Keep in mind that
+ * enabling this command does not put the elevator in a safe state. That is, it
+ * does not stop it from chopping off fingers.
  */
 public class StopElevator extends Command {
 

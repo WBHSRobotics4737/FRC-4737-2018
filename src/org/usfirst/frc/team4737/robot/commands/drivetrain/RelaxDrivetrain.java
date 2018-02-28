@@ -5,7 +5,8 @@ import org.usfirst.frc.team4737.robot.Robot;
 import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
- *
+ * Configures the drivetrain to coast mode. This allows the robot to be pushed
+ * around more easily.
  */
 public class RelaxDrivetrain extends InstantCommand {
 

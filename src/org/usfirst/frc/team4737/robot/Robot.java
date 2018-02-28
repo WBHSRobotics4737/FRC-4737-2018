@@ -31,7 +31,7 @@ public class Robot extends TimedRobot {
 	public static final Intake INTAKE = new Intake();
 	public static final Climber CLIMBER = new Climber();
 	public static final ControlSystem CONTROLSYSTEM = new ControlSystem();
-	
+
 	public static final OI OI = new OI(); // Must initialize after subsystems
 
 	private Command autonomousCommand;
@@ -45,6 +45,7 @@ public class Robot extends TimedRobot {
 	public void robotInit() {
 		chooser.addDefault("No Auto", null);
 		chooser.addObject("Blind Baseline", new AutoBlindBaseline());
+		// Add new autonomous routines here
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void disabledInit() {
+		// Puts robot into coast mode, allowing it to be pushed more easily
 		new RelaxDrivetrain().start();
 	}
 

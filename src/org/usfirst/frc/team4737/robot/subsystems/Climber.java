@@ -5,7 +5,8 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import edu.wpi.first.wpilibj.command.Subsystem;
 
 /**
- *
+ * This subsystem currently does not exist on the robot. This class serves as a
+ * placeholder in case it is added.
  */
 public class Climber extends Subsystem {
 
