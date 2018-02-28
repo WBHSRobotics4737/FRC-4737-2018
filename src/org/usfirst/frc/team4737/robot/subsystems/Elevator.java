@@ -32,8 +32,8 @@ public class Elevator extends Subsystem {
 		motor.enableCurrentLimit(true);
 		
 		// Use voltage compensation to keep inputs reliable
-//		motor.configVoltageCompSaturation(12, 30);
-//		motor.enableVoltageCompensation(true);
+		motor.configVoltageCompSaturation(12, 30);
+		motor.enableVoltageCompensation(true);
 	}
 
 	public void initDefaultCommand() {

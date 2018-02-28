@@ -43,6 +43,8 @@ public class AutoBlindAccelerate extends Command {
 		lastTime = 0;
 		percent = startPercent;
 		startLow = startPercent < targetPercent;
+		
+		Robot.DRIVETRAIN.enableVoltageCompensation();
 	}
 
 	// Called repeatedly when this Command is scheduled to run

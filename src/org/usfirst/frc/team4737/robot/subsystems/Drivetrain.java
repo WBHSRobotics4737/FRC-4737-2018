@@ -32,6 +32,11 @@ public class Drivetrain extends Subsystem {
 
 		leftFrontMaster.configOpenloopRamp(0.25, 30);
 		rightFrontMaster.configOpenloopRamp(0.25, 30);
+		
+		leftFrontMaster.configVoltageCompSaturation(12, 30);
+		leftBackSlave.configVoltageCompSaturation(12, 30);
+		rightFrontMaster.configVoltageCompSaturation(12, 30);
+		rightBackSlave.configVoltageCompSaturation(12, 30);
 
 		drive = new DifferentialDrive(leftFrontMaster, rightFrontMaster);
 	}
@@ -53,6 +58,20 @@ public class Drivetrain extends Subsystem {
 		leftBackSlave.setNeutralMode(NeutralMode.Coast);
 		rightFrontMaster.setNeutralMode(NeutralMode.Coast);
 		rightBackSlave.setNeutralMode(NeutralMode.Coast);
+	}
+	
+	public void enableVoltageCompensation() {
+		leftFrontMaster.enableVoltageCompensation(true);
+		leftBackSlave.enableVoltageCompensation(true);
+		rightFrontMaster.enableVoltageCompensation(true);
+		rightBackSlave.enableVoltageCompensation(true);
+	}
+	
+	public void disableVoltageCompensation() {
+		leftFrontMaster.enableVoltageCompensation(false);
+		leftBackSlave.enableVoltageCompensation(false);
+		rightFrontMaster.enableVoltageCompensation(false);
+		rightBackSlave.enableVoltageCompensation(false);
 	}
 
 	/**
