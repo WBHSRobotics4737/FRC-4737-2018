@@ -70,7 +70,7 @@ public class RobotMap {
 	 * Adjust these variables to tune autonomous
 	 */
 	public static final double AUTO_BLIND_TIME = 5;
-	public static final double AUTO_BLIND_SPEED = 0.3;
+	public static final double AUTO_BLIND_SPEED = 0.5;
 	/**
 	 * The steering value to use in autonomous to counteract any natural tendencies
 	 * for the robot to veer left or right. A positive value (should) steer the
