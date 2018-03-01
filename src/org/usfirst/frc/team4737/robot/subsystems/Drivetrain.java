@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
 import org.usfirst.frc.team4737.robot.RobotMap;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopRacingDrive;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
 
 import com.ctre.phoenix.motorcontrol.NeutralMode;
@@ -42,8 +43,7 @@ public class Drivetrain extends Subsystem {
 	}
 
 	public void initDefaultCommand() {
-		// Set the default command for a subsystem here.
-		setDefaultCommand(new TeleopTankDrive());
+		setDefaultCommand(new TeleopRacingDrive());
 	}
 
 	public void setBrakeMode() {

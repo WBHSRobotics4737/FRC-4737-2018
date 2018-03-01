@@ -68,7 +68,8 @@ public class OI {
 		// User override to take control of driving
 		new Trigger() {
 			public boolean get() {
-				return driver.getThumbstick("LS").Y.get() != 0 || driver.getThumbstick("RS").Y.get() != 0;
+				return driver.getThumbstick("LS").X.get() != 0 || driver.getAxis("LT").get() != 0
+						|| driver.getAxis("RT").get() != 0;
 			}
 		}.whileActive(new TeleopRacingDrive());
 
