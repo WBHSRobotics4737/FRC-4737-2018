@@ -28,6 +28,8 @@ public class HoldElevator extends TimedCommand {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+		Robot.ELEVATOR.setSpeed(0);
+		
 		// If one second remaining, buzz controller to notify operator
 		if (RobotMap.ELEVATOR_HOLD_TIME - this.timeSinceInitialized() < 1.0 && !startedBuzz) {
 			new BuzzController(1, 0.3, Robot.OI.operator).start();
