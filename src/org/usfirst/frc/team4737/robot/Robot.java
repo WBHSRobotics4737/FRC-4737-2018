@@ -25,6 +25,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
+	
+	private static Robot instance;
+	
+	public static Robot getInstance() {
+		return instance;
+	}
 
 	public static final Drivetrain DRIVETRAIN = new Drivetrain();
 	public static final Elevator ELEVATOR = new Elevator();
@@ -44,6 +50,8 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void robotInit() {
+		instance = this;
+		
 		chooser.addDefault("No Auto", null);
 		chooser.addObject("Blind Baseline", new AutoBlindBaseline());
 		// Add new autonomous routines here
