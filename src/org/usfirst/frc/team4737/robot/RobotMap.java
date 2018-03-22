@@ -15,15 +15,20 @@ package org.usfirst.frc.team4737.robot;
  */
 public class RobotMap {
 
-	// #####################
-	// Actuator IDs/Channels
-	// #####################
+	// ############################
+	// Actuator/Sensor IDs/Channels
+	// ############################
 
 	// Drivetrain
 	public static final int DRIVE_LEFT_MASTER = 11;
 	public static final int DRIVE_LEFT_SLAVE = 12;
 	public static final int DRIVE_RIGHT_MASTER = 13;
 	public static final int DRIVE_RIGHT_SLAVE = 14;
+	
+	public static final int LEFT_ENC_A = 0;
+	public static final int LEFT_ENC_B = 1;
+	public static final int RIGHT_ENC_A = 2;
+	public static final int RIGHT_ENC_B = 3;
 
 	// Intake
 	public static final int INTAKE_LEFT = 15;

@@ -7,9 +7,9 @@
 
 package org.usfirst.frc.team4737.robot;
 
-import org.usfirst.frc.team4737.lib.Gamepad;
-import org.usfirst.frc.team4737.lib.XboxController;
-import org.usfirst.frc.team4737.lib.F310Gamepad;
+import org.usfirst.frc.team4737.lib.oi.F310Gamepad;
+import org.usfirst.frc.team4737.lib.oi.Gamepad;
+import org.usfirst.frc.team4737.lib.oi.XboxController;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.*;
 import org.usfirst.frc.team4737.robot.commands.elevator.*;
 import org.usfirst.frc.team4737.robot.commands.intake.*;

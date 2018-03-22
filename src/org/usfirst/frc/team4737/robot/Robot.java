@@ -7,10 +7,11 @@
 
 package org.usfirst.frc.team4737.robot;
 
-import org.usfirst.frc.team4737.robot.commands.drivetrain.AutoBlindBaseline;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.RelaxDrivetrain;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoBlindBaseline;
 import org.usfirst.frc.team4737.robot.subsystems.*;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -55,6 +56,7 @@ public class Robot extends TimedRobot {
 		chooser.addDefault("No Auto", null);
 		chooser.addObject("Blind Baseline", new AutoBlindBaseline());
 		// Add new autonomous routines here
+		
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -88,8 +90,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void autonomousInit() {
+		// Get the color of the switches/scale
+		// Gives a value of "LRL", "RRR", etc.
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();
+		
+		
 		//autonomousCommand = chooser.getSelected();
 		autonomousCommand = new AutoBlindBaseline();
+		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -97,7 +105,7 @@ public class Robot extends TimedRobot {
 		 * ExampleCommand(); break; }
 		 */
 
-		// schedule the autonomous command (example)
+		// Schedule the autonomous command
 		if (autonomousCommand != null) {
 			autonomousCommand.start();
 		}

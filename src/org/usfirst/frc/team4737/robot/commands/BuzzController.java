@@ -1,6 +1,6 @@
 package org.usfirst.frc.team4737.robot.commands;
 
-import org.usfirst.frc.team4737.lib.Gamepad;
+import org.usfirst.frc.team4737.lib.oi.Gamepad;
 
 import edu.wpi.first.wpilibj.command.TimedCommand;
 

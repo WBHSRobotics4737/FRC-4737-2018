@@ -7,6 +7,7 @@ import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -21,6 +22,9 @@ public class Drivetrain extends Subsystem {
 	private WPI_TalonSRX rightBackSlave;
 
 	private DifferentialDrive drive;
+	
+	private Encoder leftEnc;
+	private Encoder rightEnc;
 
 	public Drivetrain() {
 		leftFrontMaster = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
@@ -40,10 +44,21 @@ public class Drivetrain extends Subsystem {
 		rightBackSlave.configVoltageCompSaturation(12, 30);
 
 		drive = new DifferentialDrive(leftFrontMaster, rightFrontMaster);
+		
+		leftEnc = new Encoder(RobotMap.LEFT_ENC_A, RobotMap.LEFT_ENC_B, true);
+		rightEnc = new Encoder(RobotMap.RIGHT_ENC_A, RobotMap.RIGHT_ENC_B, false);
+		// Set encoders to units of feet
+		leftEnc.setDistancePerPulse(Math.PI * (6.0 / 12.0) / 360); // PI*wheelDiameter/encoderPPR
+		rightEnc.setDistancePerPulse(Math.PI * (6.0 / 12.0) / 360);
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new TeleopRacingDrive());
+	}
+	
+	@Override
+	public void periodic() {
+		// TODO calculate robot's change in position
 	}
 
 	public void setBrakeMode() {
