@@ -15,20 +15,13 @@ package org.usfirst.frc.team4737.robot;
  */
 public class RobotMap {
 
-	// ############################
-	// Actuator/Sensor IDs/Channels
-	// ############################
+	// Actuators ##############################################################
 
-	// Drivetrain
+	// Drive
 	public static final int DRIVE_LEFT_MASTER = 11;
 	public static final int DRIVE_LEFT_SLAVE = 12;
 	public static final int DRIVE_RIGHT_MASTER = 13;
 	public static final int DRIVE_RIGHT_SLAVE = 14;
-	
-	public static final int LEFT_ENC_A = 0;
-	public static final int LEFT_ENC_B = 1;
-	public static final int RIGHT_ENC_A = 2;
-	public static final int RIGHT_ENC_B = 3;
 
 	// Intake
 	public static final int INTAKE_LEFT = 15;
@@ -44,9 +37,30 @@ public class RobotMap {
 	// Elevator
 	public static final int ELEVATOR_MOTOR = 17;
 
-	// #########
-	// Constants
-	// #########
+	// Sensors ################################################################
+
+	// Drive encoders
+	public static final int LEFT_ENC_A = 0;
+	public static final int LEFT_ENC_B = 1;
+	public static final int RIGHT_ENC_A = 2;
+	public static final int RIGHT_ENC_B = 3;
+
+	public static final int ENC_PULSES_PER_REV = 360; // E4T OEM Miniature Optical Encoder Kit (am-3132)
+
+	// Physical Constants #####################################################
+
+	public static final double WHEEL_DIAM_FEET = (6.0 / 12.0);
+	public static final double WHEELBASE_WIDTH = 24.25 / 12.0; // TODO measure
+
+	public static final double DRIVE_MAX_SPEED = 10; // TODO find more accurate value?
+
+	public static final double ENC_FEET_PER_PULSE = Math.PI * WHEEL_DIAM_FEET / ENC_PULSES_PER_REV;
+
+	// Control Constants ######################################################
+
+	public static final double SMOOTH_MAX_SPEED_PCT = 1;
+	public static final double SMOOTH_MAX_ACCEL_PCT = 8; // TODO tune these so the robot doesn't tip
+	public static final double SMOOTH_MAX_JERK_PCT = 40;
 
 	/**
 	 * The voltage to give to the elevator for it to hold constant position with a

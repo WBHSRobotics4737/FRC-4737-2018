@@ -1,9 +1,12 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
+import org.usfirst.frc.team4737.lib.JerkLimitedSpeedController;
+import org.usfirst.frc.team4737.lib.LazyWPITalonSRX;
 import org.usfirst.frc.team4737.robot.RobotMap;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopRacingDrive;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
 
+import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 
@@ -16,77 +19,103 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class Drivetrain extends Subsystem {
 
-	private WPI_TalonSRX leftFrontMaster;
-	private WPI_TalonSRX rightFrontMaster;
-	private WPI_TalonSRX leftBackSlave;
-	private WPI_TalonSRX rightBackSlave;
+	private WPI_TalonSRX lfTalon;
+	private WPI_TalonSRX rfTalon;
+	private WPI_TalonSRX lbTalon;
+	private WPI_TalonSRX rbTalon;
+	private WPI_TalonSRX[] talons;
 
-	private DifferentialDrive drive;
-	
+	private JerkLimitedSpeedController jlLeft;
+	private JerkLimitedSpeedController jlRight;
+
+	private DifferentialDrive rawDrive;
+	private DifferentialDrive smoothDrive;
+	private DifferentialDrive currentDrive;
+
 	private Encoder leftEnc;
 	private Encoder rightEnc;
 
 	public Drivetrain() {
-		leftFrontMaster = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_MASTER);
-		leftBackSlave = new WPI_TalonSRX(RobotMap.DRIVE_LEFT_SLAVE);
-		rightFrontMaster = new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_MASTER);
-		rightBackSlave = new WPI_TalonSRX(RobotMap.DRIVE_RIGHT_SLAVE);
+		lfTalon = createDriveTalon(RobotMap.DRIVE_LEFT_MASTER);
+		lbTalon = createSlaveTalon(RobotMap.DRIVE_LEFT_SLAVE, lfTalon);
+		rfTalon = createDriveTalon(RobotMap.DRIVE_RIGHT_MASTER);
+		rbTalon = createSlaveTalon(RobotMap.DRIVE_RIGHT_SLAVE, rfTalon);
+		talons = new WPI_TalonSRX[] { lfTalon, lbTalon, rfTalon, rbTalon };
 
-		leftBackSlave.follow(leftFrontMaster);
-		rightBackSlave.follow(rightFrontMaster);
+		rawDrive = new DifferentialDrive(lfTalon, rfTalon);
 
-		leftFrontMaster.configOpenloopRamp(0.25, 30);
-		rightFrontMaster.configOpenloopRamp(0.25, 30);
-		
-		leftFrontMaster.configVoltageCompSaturation(12, 30);
-		leftBackSlave.configVoltageCompSaturation(12, 30);
-		rightFrontMaster.configVoltageCompSaturation(12, 30);
-		rightBackSlave.configVoltageCompSaturation(12, 30);
+		jlLeft = new JerkLimitedSpeedController(lfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
+				RobotMap.SMOOTH_MAX_JERK_PCT);
+		jlLeft = new JerkLimitedSpeedController(rfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
+				RobotMap.SMOOTH_MAX_JERK_PCT);
+		smoothDrive = new DifferentialDrive(jlLeft, jlRight);
 
-		drive = new DifferentialDrive(leftFrontMaster, rightFrontMaster);
-		
+		currentDrive = rawDrive;
+
 		leftEnc = new Encoder(RobotMap.LEFT_ENC_A, RobotMap.LEFT_ENC_B, true);
 		rightEnc = new Encoder(RobotMap.RIGHT_ENC_A, RobotMap.RIGHT_ENC_B, false);
 		// Set encoders to units of feet
-		leftEnc.setDistancePerPulse(Math.PI * (6.0 / 12.0) / 360); // PI*wheelDiameter/encoderPPR
-		rightEnc.setDistancePerPulse(Math.PI * (6.0 / 12.0) / 360);
+		leftEnc.setDistancePerPulse(RobotMap.ENC_FEET_PER_PULSE);
+		rightEnc.setDistancePerPulse(RobotMap.ENC_FEET_PER_PULSE);
+	}
+
+	private WPI_TalonSRX createDriveTalon(int id) {
+		WPI_TalonSRX talon = new LazyWPITalonSRX(id);
+		talon.configVoltageCompSaturation(12, 100);
+		talon.enableVoltageCompensation(true);
+		talon.setNeutralMode(NeutralMode.Brake);
+		return talon;
+	}
+
+	private WPI_TalonSRX createSlaveTalon(int id, IMotorController master) {
+		WPI_TalonSRX talon = createDriveTalon(id);
+		talon.follow(master);
+		return talon;
 	}
 
 	public void initDefaultCommand() {
 		setDefaultCommand(new TeleopRacingDrive());
 	}
-	
+
 	@Override
 	public void periodic() {
 		// TODO calculate robot's change in position
 	}
 
 	public void setBrakeMode() {
-		leftFrontMaster.setNeutralMode(NeutralMode.Brake);
-		leftBackSlave.setNeutralMode(NeutralMode.Brake);
-		rightFrontMaster.setNeutralMode(NeutralMode.Brake);
-		rightBackSlave.setNeutralMode(NeutralMode.Brake);
+		for (WPI_TalonSRX talon : talons)
+			talon.setNeutralMode(NeutralMode.Brake);
 	}
 
 	public void setCoastMode() {
-		leftFrontMaster.setNeutralMode(NeutralMode.Coast);
-		leftBackSlave.setNeutralMode(NeutralMode.Coast);
-		rightFrontMaster.setNeutralMode(NeutralMode.Coast);
-		rightBackSlave.setNeutralMode(NeutralMode.Coast);
+		for (WPI_TalonSRX talon : talons)
+			talon.setNeutralMode(NeutralMode.Coast);
 	}
-	
+
 	public void enableVoltageCompensation() {
-		leftFrontMaster.enableVoltageCompensation(true);
-		leftBackSlave.enableVoltageCompensation(true);
-		rightFrontMaster.enableVoltageCompensation(true);
-		rightBackSlave.enableVoltageCompensation(true);
+		for (WPI_TalonSRX talon : talons)
+			talon.enableVoltageCompensation(true);
 	}
-	
+
 	public void disableVoltageCompensation() {
-		leftFrontMaster.enableVoltageCompensation(false);
-		leftBackSlave.enableVoltageCompensation(false);
-		rightFrontMaster.enableVoltageCompensation(false);
-		rightBackSlave.enableVoltageCompensation(false);
+		for (WPI_TalonSRX talon : talons)
+			talon.enableVoltageCompensation(false);
+	}
+
+	public void setSmoothDrive() {
+		if (currentDrive == smoothDrive)
+			return;
+		rawDrive.setSafetyEnabled(false);
+		smoothDrive.setSafetyEnabled(true);
+		currentDrive = smoothDrive;
+	}
+
+	public void setRawDrive() {
+		if (currentDrive == rawDrive)
+			return;
+		smoothDrive.setSafetyEnabled(false);
+		rawDrive.setSafetyEnabled(true);
+		currentDrive = rawDrive;
 	}
 
 	/**
@@ -98,11 +127,11 @@ public class Drivetrain extends Subsystem {
 	 *            - Right joystick input from -1.0 to 1.0
 	 */
 	public void tankDrive(double leftInput, double rightInput) {
-		drive.tankDrive(leftInput, rightInput);
+		currentDrive.tankDrive(leftInput, rightInput, true);
 	}
-	
+
 	public void arcadeDrive(double throttle, double steer) {
-		drive.arcadeDrive(throttle, steer);
+		currentDrive.arcadeDrive(throttle, steer, true);
 	}
 
 }
