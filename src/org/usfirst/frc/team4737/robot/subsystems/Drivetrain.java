@@ -1,5 +1,6 @@
 package org.usfirst.frc.team4737.robot.subsystems;
 
+import org.usfirst.frc.team4737.lib.DriveDeadReckoner;
 import org.usfirst.frc.team4737.lib.JerkLimitedSpeedController;
 import org.usfirst.frc.team4737.lib.LazyWPITalonSRX;
 import org.usfirst.frc.team4737.robot.RobotMap;
@@ -9,8 +10,10 @@ import org.usfirst.frc.team4737.robot.commands.drivetrain.TeleopTankDrive;
 import com.ctre.phoenix.motorcontrol.IMotorController;
 import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
+import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -19,11 +22,20 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  */
 public class Drivetrain extends Subsystem {
 
+	// Talons and sensors
+
 	private WPI_TalonSRX lfTalon;
 	private WPI_TalonSRX rfTalon;
 	private WPI_TalonSRX lbTalon;
 	private WPI_TalonSRX rbTalon;
 	private WPI_TalonSRX[] talons;
+
+	private Encoder leftEnc;
+	private Encoder rightEnc;
+
+	private AHRS navX;
+
+	// Controllers
 
 	private JerkLimitedSpeedController jlLeft;
 	private JerkLimitedSpeedController jlRight;
@@ -32,8 +44,9 @@ public class Drivetrain extends Subsystem {
 	private DifferentialDrive smoothDrive;
 	private DifferentialDrive currentDrive;
 
-	private Encoder leftEnc;
-	private Encoder rightEnc;
+	// Other
+
+	private DriveDeadReckoner position;
 
 	public Drivetrain() {
 		lfTalon = createDriveTalon(RobotMap.DRIVE_LEFT_MASTER);
@@ -42,21 +55,26 @@ public class Drivetrain extends Subsystem {
 		rbTalon = createSlaveTalon(RobotMap.DRIVE_RIGHT_SLAVE, rfTalon);
 		talons = new WPI_TalonSRX[] { lfTalon, lbTalon, rfTalon, rbTalon };
 
-		rawDrive = new DifferentialDrive(lfTalon, rfTalon);
-
-		jlLeft = new JerkLimitedSpeedController(lfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
-				RobotMap.SMOOTH_MAX_JERK_PCT);
-		jlLeft = new JerkLimitedSpeedController(rfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
-				RobotMap.SMOOTH_MAX_JERK_PCT);
-		smoothDrive = new DifferentialDrive(jlLeft, jlRight);
-
-		currentDrive = rawDrive;
-
 		leftEnc = new Encoder(RobotMap.LEFT_ENC_A, RobotMap.LEFT_ENC_B, true);
 		rightEnc = new Encoder(RobotMap.RIGHT_ENC_A, RobotMap.RIGHT_ENC_B, false);
 		// Set encoders to units of feet
 		leftEnc.setDistancePerPulse(RobotMap.ENC_FEET_PER_PULSE);
 		rightEnc.setDistancePerPulse(RobotMap.ENC_FEET_PER_PULSE);
+
+		navX = new AHRS(Port.kMXP, (byte) 200);
+		navX.reset();
+
+		jlLeft = new JerkLimitedSpeedController(lfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
+				RobotMap.SMOOTH_MAX_JERK_PCT);
+		jlLeft = new JerkLimitedSpeedController(rfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
+				RobotMap.SMOOTH_MAX_JERK_PCT);
+
+		smoothDrive = new DifferentialDrive(jlLeft, jlRight);
+		rawDrive = new DifferentialDrive(lfTalon, rfTalon);
+
+		currentDrive = rawDrive;
+		
+		position = new DriveDeadReckoner(leftEnc, rightEnc, navX, 0.005);
 	}
 
 	private WPI_TalonSRX createDriveTalon(int id) {
@@ -79,7 +97,7 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	public void periodic() {
-		// TODO calculate robot's change in position
+		
 	}
 
 	public void setBrakeMode() {
