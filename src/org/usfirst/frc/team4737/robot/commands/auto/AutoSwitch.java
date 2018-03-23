@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4737.robot.commands.auto;
 
 import org.usfirst.frc.team4737.lib.ParallelCommandGroup;
+import org.usfirst.frc.team4737.robot.Robot;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveCombined;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveForward;
 import org.usfirst.frc.team4737.robot.commands.elevator.AutoRaiseElevator;
@@ -31,11 +32,11 @@ public class AutoSwitch extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new AutoDriveForward(3));
-    	addSequential(new AutoDriveCombined(0, 90, true));
     	addSequential(new AutoDriveForward(5));
-    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(3), new AutoDriveCombined(0, 0, true)));
-    	addSequential(new AutoDriveForward(3));
+    	addSequential(new AutoDriveCombined(0, Robot.getInstance().leftSwitch() ? 90 : -90, true));
+    	addSequential(new AutoDriveForward(4.5));
+    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(1.5), new AutoDriveCombined(0, 0, true)));
+    	addSequential(new AutoDriveForward(9 - 27.2 / 2.0));
     	addSequential(new AutoDropCube());
     }
 }

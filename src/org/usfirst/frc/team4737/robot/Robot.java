@@ -14,6 +14,7 @@ import org.usfirst.frc.team4737.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -27,9 +28,9 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  * project.
  */
 public class Robot extends TimedRobot {
-	
+
 	private static Robot instance;
-	
+
 	public static Robot getInstance() {
 		return instance;
 	}
@@ -46,6 +47,9 @@ public class Robot extends TimedRobot {
 	private Command autonomousCommand;
 	private SendableChooser<Command> chooser = new SendableChooser<>();
 
+	private boolean leftSwitch;
+	private boolean leftScale;
+
 	/**
 	 * This function is run when the robot is first started up and should be used
 	 * for any initialization code.
@@ -53,11 +57,11 @@ public class Robot extends TimedRobot {
 	@Override
 	public void robotInit() {
 		instance = this;
-		
+
 		chooser.addDefault("No Auto", null);
 		chooser.addObject("Blind Baseline", new AutoBlindBaseline());
 		// Add new autonomous routines here
-		
+
 		SmartDashboard.putData("Auto mode", chooser);
 	}
 
@@ -93,11 +97,21 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		// Get the color of the switches/scale
 		// Gives a value of "LRL", "RRR", etc.
-		String gameData = DriverStation.getInstance().getGameSpecificMessage();		
-		
+		String gameData = null;
+		double startTime = Timer.getFPGATimestamp();
+		while (gameData == null && Timer.getFPGATimestamp() - startTime < 3)
+			gameData = DriverStation.getInstance().getGameSpecificMessage();
+
+		if (gameData != null) {
+			if (gameData.charAt(0) == 'L')
+				leftSwitch = true;
+			if (gameData.charAt(1) == 'L')
+				leftScale = true;
+		}
+
 		//autonomousCommand = chooser.getSelected();
 		autonomousCommand = new AutoBaseline();
-		
+
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");
 		 * switch(autoSelected) { case "My Auto": autonomousCommand = new
@@ -143,6 +157,14 @@ public class Robot extends TimedRobot {
 	 */
 	@Override
 	public void testPeriodic() {
+	}
+
+	public boolean leftSwitch() {
+		return leftSwitch;
+	}
+
+	public boolean leftScale() {
+		return leftScale;
 	}
 
 }

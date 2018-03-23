@@ -119,7 +119,7 @@ public class JerkLimitedSpeedController implements SpeedController {
 	}
 
 	private void updateSpeed() {
-		control.set(speed);
+		control.set(inverted ? -speed : speed);
 	}
 
 	private void startUpdates() {

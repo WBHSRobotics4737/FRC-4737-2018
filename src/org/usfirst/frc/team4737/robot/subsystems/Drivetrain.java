@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -49,7 +50,8 @@ public class Drivetrain extends Subsystem {
 		};
 
 		private void output() {
-			currentDrive.arcadeDrive(throttle, steer);
+			if (currentDrive != null)
+				currentDrive.arcadeDrive(throttle, steer);
 		}
 
 	}
@@ -113,6 +115,7 @@ public class Drivetrain extends Subsystem {
 				RobotMap.SMOOTH_MAX_JERK_PCT);
 		jlRight = new JerkLimitedSpeedController(rfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
 				RobotMap.SMOOTH_MAX_JERK_PCT);
+		jlRight.setInverted(true);
 
 		smoothDrive = new DifferentialDrive(jlLeft, jlRight);
 		rawDrive = new DifferentialDrive(lfTalon, rfTalon);
@@ -145,7 +148,10 @@ public class Drivetrain extends Subsystem {
 
 			@Override
 			public double pidGet() {
-				return gyro.getAngle() % 360;
+				double angle = gyro.getAngle() % 360;
+				while (angle < 0)
+					angle += 360;
+				return angle;
 			}
 
 			@Override
@@ -153,7 +159,7 @@ public class Drivetrain extends Subsystem {
 				return PIDSourceType.kDisplacement;
 			}
 		}, combinedOutput.steerOutput);
-		headingControl.setInputRange(-180, 180);
+		headingControl.setInputRange(0, 360);
 		headingControl.setContinuous();
 
 		double distTolerance = 1.0 / 12.0;
@@ -188,6 +194,7 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	public void periodic() {
+		SmartDashboard.putNumber("gy_A", gyro.getAngle());
 	}
 
 	public void setBrakeMode() {
@@ -282,6 +289,8 @@ public class Drivetrain extends Subsystem {
 		} else {
 			setpointAngle = (angle + gyro.getAngle()) % 360;
 		}
+		while (setpointAngle < 0)
+			setpointAngle += 360;
 		headingControl.setSetpoint(setpointAngle);
 		avgDistControl.enable();
 		headingControl.enable();

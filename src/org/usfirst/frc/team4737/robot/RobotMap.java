@@ -50,7 +50,7 @@ public class RobotMap {
 	// Physical Constants #####################################################
 
 	public static final double WHEEL_DIAM_FEET = 6.0 / 12.0;
-	public static final double WHEELBASE_WIDTH = 24.25 / 12.0; // TODO measure
+	public static final double WHEELBASE_WIDTH = 24.0 / 12.0;
 
 	public static final double DRIVE_MAX_SPEED = 10; // TODO find more accurate value?
 
@@ -58,12 +58,12 @@ public class RobotMap {
 
 	// Control Constants ######################################################
 
-	public static final double SMOOTH_MAX_SPEED_PCT = 1;
-	public static final double SMOOTH_MAX_ACCEL_PCT = 8; // TODO tune these so the robot doesn't tip
-	public static final double SMOOTH_MAX_JERK_PCT = 40;
+	public static final double SMOOTH_MAX_SPEED_PCT = 0.8;
+	public static final double SMOOTH_MAX_ACCEL_PCT = 3; // TODO tune these so the robot doesn't tip
+	public static final double SMOOTH_MAX_JERK_PCT = 30;
 
-	public static final double DRIVE_DIST_kP = 0.35;
-	public static final double DRIVE_DIST_kD = 0.15;
+	public static final double DRIVE_DIST_kP = 0.4;
+	public static final double DRIVE_DIST_kD = 0.8;
 	
 	public static final double DRIVE_ANGLE_kP = 0.35 / 180.0;
 	public static final double DRIVE_ANGLE_kD = 0.15 / 180.0;
@@ -74,7 +74,7 @@ public class RobotMap {
 	 * 
 	 * Increase this value if the elevator droops too much while holding the cube
 	 */
-	public static final double ELEVATOR_HOLD_V = 1;
+	public static final double ELEVATOR_HOLD_V = 2;
 	/**
 	 * The number of seconds to keep the elevator in place before letting the motor
 	 * relax. To disable this, set the value to 0.1
