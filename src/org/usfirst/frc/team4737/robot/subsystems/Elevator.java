@@ -28,7 +28,7 @@ public class Elevator extends Subsystem {
 		motor = new WPI_TalonSRX(RobotMap.ELEVATOR_MOTOR);
 		motor.setInverted(true);
 		// Prevent motor from stalling too hard
-		motor.configContinuousCurrentLimit(60, 100);
+		motor.configContinuousCurrentLimit(40, 100);
 		motor.enableCurrentLimit(true);
 		
 		// Use voltage compensation to keep inputs reliable
