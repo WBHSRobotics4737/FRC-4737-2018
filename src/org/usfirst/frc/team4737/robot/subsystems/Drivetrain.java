@@ -13,6 +13,10 @@ import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.PIDController;
+import edu.wpi.first.wpilibj.PIDOutput;
+import edu.wpi.first.wpilibj.PIDSource;
+import edu.wpi.first.wpilibj.PIDSourceType;
 import edu.wpi.first.wpilibj.SPI.Port;
 import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
@@ -21,6 +25,33 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
  *
  */
 public class Drivetrain extends Subsystem {
+
+	private class CombinedPIDOutput {
+
+		private double throttle, steer;
+
+		private PIDOutput throttleOutput = new PIDOutput() {
+
+			@Override
+			public void pidWrite(double output) {
+				throttle = output;
+				output();
+			}
+		};
+		private PIDOutput steerOutput = new PIDOutput() {
+
+			@Override
+			public void pidWrite(double output) {
+				steer = output;
+				output();
+			}
+		};
+
+		private void output() {
+			currentDrive.arcadeDrive(throttle, steer);
+		}
+
+	}
 
 	// Talons and sensors
 
@@ -44,11 +75,19 @@ public class Drivetrain extends Subsystem {
 	private DifferentialDrive smoothDrive;
 	private DifferentialDrive currentDrive;
 
+	private PIDController leftDistControl;
+	private PIDController rightDistControl;
+
+	private PIDController avgDistControl;
+	private PIDController headingControl;
+
 	// Other
 
 	private DriveDeadReckoner position;
 
 	public Drivetrain() {
+		// Talons and sensors
+
 		lfTalon = createDriveTalon(RobotMap.DRIVE_LEFT_MASTER);
 		lbTalon = createSlaveTalon(RobotMap.DRIVE_LEFT_SLAVE, lfTalon);
 		rfTalon = createDriveTalon(RobotMap.DRIVE_RIGHT_MASTER);
@@ -64,16 +103,43 @@ public class Drivetrain extends Subsystem {
 		navX = new AHRS(Port.kMXP, (byte) 200);
 		navX.reset();
 
+		// Controllers
+
 		jlLeft = new JerkLimitedSpeedController(lfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
 				RobotMap.SMOOTH_MAX_JERK_PCT);
-		jlLeft = new JerkLimitedSpeedController(rfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
+		jlRight = new JerkLimitedSpeedController(rfTalon, RobotMap.SMOOTH_MAX_SPEED_PCT, RobotMap.SMOOTH_MAX_ACCEL_PCT,
 				RobotMap.SMOOTH_MAX_JERK_PCT);
 
 		smoothDrive = new DifferentialDrive(jlLeft, jlRight);
 		rawDrive = new DifferentialDrive(lfTalon, rfTalon);
 
 		currentDrive = rawDrive;
-		
+
+		leftDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, leftEnc, jlLeft);
+		rightDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, rightEnc, jlRight);
+
+		CombinedPIDOutput combinedOutput = new CombinedPIDOutput();
+		avgDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, new PIDSource() {
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+			}
+
+			@Override
+			public double pidGet() {
+				return leftEnc.getDistance() + rightEnc.getDistance();
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return PIDSourceType.kDisplacement;
+			}
+		}, combinedOutput.throttleOutput);
+		headingControl = new PIDController(RobotMap.DRIVE_ANGLE_kP, 0, RobotMap.DRIVE_ANGLE_kD, navX, combinedOutput.steerOutput);
+		headingControl.setInputRange(-180, 180);
+		headingControl.setContinuous();
+
+		// Other
+
 		position = new DriveDeadReckoner(leftEnc, rightEnc, navX, 0.005);
 	}
 
@@ -97,7 +163,6 @@ public class Drivetrain extends Subsystem {
 
 	@Override
 	public void periodic() {
-		
 	}
 
 	public void setBrakeMode() {
@@ -145,11 +210,67 @@ public class Drivetrain extends Subsystem {
 	 *            - Right joystick input from -1.0 to 1.0
 	 */
 	public void tankDrive(double leftInput, double rightInput) {
+		disableTargets();
+		if (currentDrive == null)
+			setRawDrive();
+
 		currentDrive.tankDrive(leftInput, rightInput, true);
 	}
 
 	public void arcadeDrive(double throttle, double steer) {
+		disableTargets();
+		if (currentDrive == null)
+			setRawDrive();
+
 		currentDrive.arcadeDrive(throttle, steer, true);
+	}
+
+	public void setDistanceTarget(double leftDist, double rightDist) {
+		disableCombinedTarget();
+		rawDrive.setSafetyEnabled(false);
+		smoothDrive.setSafetyEnabled(false);
+		currentDrive = null;
+		enableVoltageCompensation();
+
+		// Controllers are given a 'globalized' value because resetting the encoders
+		// will break dead reckoning
+		leftDistControl.setSetpoint(leftEnc.getDistance() + leftDist);
+		rightDistControl.setSetpoint(rightEnc.getDistance() + rightDist);
+		leftDistControl.enable();
+		rightDistControl.enable();
+	}
+
+	public void setCombinedTarget(double distance, double angle, boolean globalAngle) {
+		disableDistanceTarget();
+		setSmoothDrive();
+		enableVoltageCompensation();
+
+		// Globalize encoders
+		avgDistControl.setSetpoint((leftEnc.getDistance() + rightEnc.getDistance()) / 2.0 + distance);
+		double setpointAngle;
+		if (globalAngle) {
+			setpointAngle = Math.min(Math.max(angle, -180), 180);
+		} else {
+			setpointAngle = Math.min(Math.max(angle + navX.getYaw(), -180), 180);
+		}
+		headingControl.setSetpoint(setpointAngle);
+		avgDistControl.enable();
+		headingControl.enable();
+	}
+
+	private void disableDistanceTarget() {
+		leftDistControl.reset();
+		rightDistControl.reset();
+	}
+
+	private void disableCombinedTarget() {
+		avgDistControl.reset();
+		headingControl.reset();
+	}
+
+	public void disableTargets() {
+		disableDistanceTarget();
+		disableCombinedTarget();
 	}
 
 }

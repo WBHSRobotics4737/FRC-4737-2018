@@ -27,6 +27,8 @@ public class DriveDeadReckoner {
 		public void run() {
 			double curr = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
 			if (start == -1) {
+				if (navX.isCalibrating())
+					return;
 				start = curr;
 				last = curr;
 			}
@@ -115,7 +117,7 @@ public class DriveDeadReckoner {
 		return heading;
 	}
 
-	public void resetPos() {
+	public void reset() {
 		x = 0;
 		y = 0;
 		heading = 0;
