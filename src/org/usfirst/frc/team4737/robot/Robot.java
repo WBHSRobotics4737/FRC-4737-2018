@@ -7,6 +7,7 @@
 
 package org.usfirst.frc.team4737.robot;
 
+import org.usfirst.frc.team4737.robot.commands.auto.AutoBaseline;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.RelaxDrivetrain;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoBlindBaseline;
 import org.usfirst.frc.team4737.robot.subsystems.*;
@@ -92,11 +93,10 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		// Get the color of the switches/scale
 		// Gives a value of "LRL", "RRR", etc.
-		String gameData = DriverStation.getInstance().getGameSpecificMessage();
-		
+		String gameData = DriverStation.getInstance().getGameSpecificMessage();		
 		
 		//autonomousCommand = chooser.getSelected();
-		autonomousCommand = new AutoBlindBaseline();
+		autonomousCommand = new AutoBaseline();
 		
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

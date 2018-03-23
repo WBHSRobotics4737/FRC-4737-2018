@@ -7,6 +7,7 @@ import org.jblas.DoubleMatrix;
 
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 
 public class DriveDeadReckoner {
@@ -27,8 +28,8 @@ public class DriveDeadReckoner {
 		public void run() {
 			double curr = edu.wpi.first.wpilibj.Timer.getFPGATimestamp();
 			if (start == -1) {
-				if (navX.isCalibrating())
-					return;
+//				if (gyro.isCalibrating())
+//					return;
 				start = curr;
 				last = curr;
 			}
@@ -42,7 +43,7 @@ public class DriveDeadReckoner {
 
 	private Encoder lEnc;
 	private Encoder rEnc;
-	private AHRS navX;
+	private ADXRS450_Gyro gyro;
 
 	Timer updateLoop;
 
@@ -57,10 +58,10 @@ public class DriveDeadReckoner {
 	private double y;
 	private double heading;
 
-	public DriveDeadReckoner(Encoder lEnc, Encoder rEnc, AHRS navX, double period) {
+	public DriveDeadReckoner(Encoder lEnc, Encoder rEnc, ADXRS450_Gyro navX, double period) {
 		this.lEnc = lEnc;
 		this.rEnc = rEnc;
-		this.navX = navX;
+		this.gyro = navX;
 
 		updateLoop = new Timer();
 		updateLoop.schedule(new UpdateTask(this), 0L, (long) (period * 1000));
@@ -69,7 +70,7 @@ public class DriveDeadReckoner {
 	private void update(double dt) {
 		double newLDist = lEnc.getDistance();
 		double newRDist = rEnc.getDistance();
-		double actualHeading = -navX.getAngle() * (Math.PI / 180.0);
+		double actualHeading = -gyro.getAngle() * (Math.PI / 180.0);
 
 		double dl = newLDist - lastLDist;
 		double dr = newRDist - lastRDist;

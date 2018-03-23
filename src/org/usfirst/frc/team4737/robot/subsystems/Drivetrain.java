@@ -12,6 +12,7 @@ import com.ctre.phoenix.motorcontrol.NeutralMode;
 import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
 import com.kauailabs.navx.frc.AHRS;
 
+import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.PIDController;
 import edu.wpi.first.wpilibj.PIDOutput;
@@ -64,7 +65,8 @@ public class Drivetrain extends Subsystem {
 	private Encoder leftEnc;
 	private Encoder rightEnc;
 
-	private AHRS navX;
+	//	private AHRS navX;
+	private ADXRS450_Gyro gyro;
 
 	// Controllers
 
@@ -100,8 +102,10 @@ public class Drivetrain extends Subsystem {
 		leftEnc.setDistancePerPulse(RobotMap.ENC_FEET_PER_PULSE);
 		rightEnc.setDistancePerPulse(RobotMap.ENC_FEET_PER_PULSE);
 
-		navX = new AHRS(Port.kMXP, (byte) 200);
-		navX.reset();
+		//		navX = new AHRS(Port.kMXP, (byte) 200);
+		//		navX.reset();
+		gyro = new ADXRS450_Gyro(Port.kOnboardCS0);
+		gyro.calibrate();
 
 		// Controllers
 
@@ -117,7 +121,7 @@ public class Drivetrain extends Subsystem {
 
 		leftDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, leftEnc, jlLeft);
 		rightDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, rightEnc, jlRight);
-		
+
 		CombinedPIDOutput combinedOutput = new CombinedPIDOutput();
 		avgDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, new PIDSource() {
 			@Override
@@ -134,8 +138,21 @@ public class Drivetrain extends Subsystem {
 				return PIDSourceType.kDisplacement;
 			}
 		}, combinedOutput.throttleOutput);
-		headingControl = new PIDController(RobotMap.DRIVE_ANGLE_kP, 0, RobotMap.DRIVE_ANGLE_kD, navX,
-				combinedOutput.steerOutput);
+		headingControl = new PIDController(RobotMap.DRIVE_ANGLE_kP, 0, RobotMap.DRIVE_ANGLE_kD, new PIDSource() {
+			@Override
+			public void setPIDSourceType(PIDSourceType pidSource) {
+			}
+
+			@Override
+			public double pidGet() {
+				return gyro.getAngle() % 360;
+			}
+
+			@Override
+			public PIDSourceType getPIDSourceType() {
+				return PIDSourceType.kDisplacement;
+			}
+		}, combinedOutput.steerOutput);
 		headingControl.setInputRange(-180, 180);
 		headingControl.setContinuous();
 
@@ -145,10 +162,10 @@ public class Drivetrain extends Subsystem {
 		rightDistControl.setAbsoluteTolerance(distTolerance);
 		avgDistControl.setAbsoluteTolerance(distTolerance);
 		headingControl.setAbsoluteTolerance(angleTolerance);
-		
+
 		// Other
 
-		position = new DriveDeadReckoner(leftEnc, rightEnc, navX, 0.005);
+		position = new DriveDeadReckoner(leftEnc, rightEnc, gyro, 0.005);
 	}
 
 	private WPI_TalonSRX createDriveTalon(int id) {
@@ -208,7 +225,7 @@ public class Drivetrain extends Subsystem {
 		rawDrive.setSafetyEnabled(true);
 		currentDrive = rawDrive;
 	}
-	
+
 	public boolean isRawDrive() {
 		return currentDrive == rawDrive;
 	}
@@ -261,9 +278,9 @@ public class Drivetrain extends Subsystem {
 		avgDistControl.setSetpoint((leftEnc.getDistance() + rightEnc.getDistance()) / 2.0 + distance);
 		double setpointAngle;
 		if (globalAngle) {
-			setpointAngle = Math.min(Math.max(angle, -180), 180);
+			setpointAngle = angle % 360;
 		} else {
-			setpointAngle = Math.min(Math.max(angle + navX.getYaw(), -180), 180);
+			setpointAngle = (angle + gyro.getAngle()) % 360;
 		}
 		headingControl.setSetpoint(setpointAngle);
 		avgDistControl.enable();

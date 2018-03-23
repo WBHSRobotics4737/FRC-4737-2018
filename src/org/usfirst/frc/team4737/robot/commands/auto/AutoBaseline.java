@@ -1,19 +1,15 @@
 package org.usfirst.frc.team4737.robot.commands.auto;
 
-import org.usfirst.frc.team4737.lib.ParallelCommandGroup;
-import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveCombined;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveForward;
-import org.usfirst.frc.team4737.robot.commands.elevator.AutoRaiseElevator;
-import org.usfirst.frc.team4737.robot.commands.intake.AutoDropCube;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 
 /**
  *
  */
-public class AutoSwitch extends CommandGroup {
+public class AutoBaseline extends CommandGroup {
 
-    public AutoSwitch() {
+    public AutoBaseline() {
         // Add Commands here:
         // e.g. addSequential(new Command1());
         //      addSequential(new Command2());
@@ -31,11 +27,6 @@ public class AutoSwitch extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new AutoDriveForward(3));
-    	addSequential(new AutoDriveCombined(0, 90, true));
     	addSequential(new AutoDriveForward(5));
-    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(3), new AutoDriveCombined(0, 0, true)));
-    	addSequential(new AutoDriveForward(3));
-    	addSequential(new AutoDropCube());
     }
 }
