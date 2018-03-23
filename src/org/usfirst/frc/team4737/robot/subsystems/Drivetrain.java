@@ -117,7 +117,7 @@ public class Drivetrain extends Subsystem {
 
 		leftDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, leftEnc, jlLeft);
 		rightDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, rightEnc, jlRight);
-
+		
 		CombinedPIDOutput combinedOutput = new CombinedPIDOutput();
 		avgDistControl = new PIDController(RobotMap.DRIVE_DIST_kP, 0, RobotMap.DRIVE_DIST_kD, new PIDSource() {
 			@Override
@@ -134,10 +134,18 @@ public class Drivetrain extends Subsystem {
 				return PIDSourceType.kDisplacement;
 			}
 		}, combinedOutput.throttleOutput);
-		headingControl = new PIDController(RobotMap.DRIVE_ANGLE_kP, 0, RobotMap.DRIVE_ANGLE_kD, navX, combinedOutput.steerOutput);
+		headingControl = new PIDController(RobotMap.DRIVE_ANGLE_kP, 0, RobotMap.DRIVE_ANGLE_kD, navX,
+				combinedOutput.steerOutput);
 		headingControl.setInputRange(-180, 180);
 		headingControl.setContinuous();
 
+		double distTolerance = 1.0 / 12.0;
+		double angleTolerance = 5.0;
+		leftDistControl.setAbsoluteTolerance(distTolerance);
+		rightDistControl.setAbsoluteTolerance(distTolerance);
+		avgDistControl.setAbsoluteTolerance(distTolerance);
+		headingControl.setAbsoluteTolerance(angleTolerance);
+		
 		// Other
 
 		position = new DriveDeadReckoner(leftEnc, rightEnc, navX, 0.005);
@@ -199,6 +207,10 @@ public class Drivetrain extends Subsystem {
 		smoothDrive.setSafetyEnabled(false);
 		rawDrive.setSafetyEnabled(true);
 		currentDrive = rawDrive;
+	}
+	
+	public boolean isRawDrive() {
+		return currentDrive == rawDrive;
 	}
 
 	/**
@@ -271,6 +283,22 @@ public class Drivetrain extends Subsystem {
 	public void disableTargets() {
 		disableDistanceTarget();
 		disableCombinedTarget();
+	}
+
+	public boolean targetsMet() {
+		if (leftDistControl.isEnabled())
+			if (!leftDistControl.onTarget())
+				return false;
+		if (rightDistControl.isEnabled())
+			if (!rightDistControl.onTarget())
+				return false;
+		if (avgDistControl.isEnabled())
+			if (!avgDistControl.onTarget())
+				return false;
+		if (headingControl.isEnabled())
+			if (!headingControl.onTarget())
+				return false;
+		return true;
 	}
 
 }

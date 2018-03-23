@@ -12,7 +12,13 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
 public class HoldElevator extends TimedCommand {
 
 	private boolean startedBuzz;
-	
+
+	public HoldElevator(double time, boolean buzz) {
+		super(time);
+		requires(Robot.ELEVATOR);
+		startedBuzz = buzz;
+	}
+
 	public HoldElevator() {
 		super(RobotMap.ELEVATOR_HOLD_TIME);
 		requires(Robot.ELEVATOR);
@@ -22,14 +28,14 @@ public class HoldElevator extends TimedCommand {
 	protected void initialize() {
 		Robot.ELEVATOR.setHoldPosition(true);
 		Robot.ELEVATOR.setBrakeMode();
-		
+
 		startedBuzz = false;
 	}
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
 		Robot.ELEVATOR.setSpeed(0);
-		
+
 		// If one second remaining, buzz controller to notify operator
 		if (RobotMap.ELEVATOR_HOLD_TIME - this.timeSinceInitialized() < 1.0 && !startedBuzz) {
 			new BuzzController(1, 0.3, Robot.OI.operator).start();

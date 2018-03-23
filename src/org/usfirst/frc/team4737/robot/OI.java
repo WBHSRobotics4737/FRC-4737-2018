@@ -16,6 +16,7 @@ import org.usfirst.frc.team4737.robot.commands.intake.*;
 import org.usfirst.frc.team4737.robot.commands.intakegrip.*;
 
 import edu.wpi.first.wpilibj.buttons.Trigger;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  * This class is the glue that binds the controls on the physical operator
@@ -89,6 +90,16 @@ public class OI {
 
 		// operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
 		// operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));
+		
+		driver.getButton("Y").whenPressed(new InstantCommand() {
+			@Override
+			protected void initialize() {
+				if (Robot.DRIVETRAIN.isRawDrive())
+					Robot.DRIVETRAIN.setSmoothDrive();
+				else
+					Robot.DRIVETRAIN.setRawDrive();
+			}
+		});
 
 	}
 
