@@ -61,6 +61,8 @@ public class OI {
 		// User override to take control of the intake
 		new Trigger() {
 			public boolean get() {
+				if (Robot.getInstance() == null)
+					return false;
 				return !Robot.getInstance().isAutonomous() && (operator.getAxis("LT").get() != 0
 						|| operator.getAxis("RT").get() != 0 || operator.getAxis("RS_X").get() != 0);
 			}
@@ -69,6 +71,8 @@ public class OI {
 		// User override to take control of driving
 		new Trigger() {
 			public boolean get() {
+				if (Robot.getInstance() == null)
+					return false;
 				return !Robot.getInstance().isAutonomous() && (driver.getThumbstick("LS").X.get() != 0
 						|| driver.getAxis("LT").get() != 0 || driver.getAxis("RT").get() != 0);
 			}
@@ -77,6 +81,8 @@ public class OI {
 		// User override to take control of the elevator
 		new Trigger() {
 			public boolean get() {
+				if (Robot.getInstance() == null)
+					return false;
 				return !Robot.getInstance().isAutonomous() && (operator.getAxis("LS_Y").get() != 0);
 			}
 		}.whileActive(new ControlElevator());
@@ -90,7 +96,7 @@ public class OI {
 
 		// operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
 		// operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));
-		
+
 		driver.getButton("Y").whenPressed(new InstantCommand() {
 			@Override
 			protected void initialize() {
