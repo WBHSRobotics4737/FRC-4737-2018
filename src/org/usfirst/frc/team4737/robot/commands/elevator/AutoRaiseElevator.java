@@ -9,9 +9,12 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  */
 public class AutoRaiseElevator extends TimedCommand {
 
-	public AutoRaiseElevator(double time) {
+	private double holdTime;
+	
+	public AutoRaiseElevator(double time, double holdTime) {
 		super(time);
 		requires(Robot.ELEVATOR);
+		this.holdTime = holdTime;
 	}
 
 	// Called just before this Command runs the first time
@@ -25,7 +28,7 @@ public class AutoRaiseElevator extends TimedCommand {
 
 	// Called once after timeout
 	protected void end() {
-		new HoldElevator(5, false).start();
+		new HoldElevator(holdTime, false).start();
 	}
 
 	// Called when another command which requires one or more of the same

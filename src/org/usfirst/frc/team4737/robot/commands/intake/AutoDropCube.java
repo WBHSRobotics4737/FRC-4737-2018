@@ -1,6 +1,7 @@
 package org.usfirst.frc.team4737.robot.commands.intake;
 
 import org.usfirst.frc.team4737.robot.Robot;
+import org.usfirst.frc.team4737.robot.commands.intakegrip.OpenIntakeGrip;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
@@ -10,24 +11,6 @@ import edu.wpi.first.wpilibj.command.TimedCommand;
  *
  */
 public class AutoDropCube extends CommandGroup {
-	
-	private class DropCube extends TimedCommand {
-
-		public DropCube(double timeout) {
-			super(timeout);
-			requires(Robot.INTAKEGRIP);
-		}
-		
-		@Override
-		protected void initialize() {
-			Robot.INTAKEGRIP.closePneumatics();
-		}
-
-		@Override
-		protected void end() {
-		}
-		
-	}
 
 	public AutoDropCube() {
 		// Add Commands here:
@@ -47,9 +30,8 @@ public class AutoDropCube extends CommandGroup {
 		// a CommandGroup containing them would require both the chassis and the
 		// arm.
 
-		addParallel(new ReverseIntake());
-		addSequential(new DropCube(1.5));
-		
+		addParallel(new ReverseIntake(1.5));
+		addSequential(new OpenIntakeGrip());
 		addSequential(new StopIntake());
 	}
 }

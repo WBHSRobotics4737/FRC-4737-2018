@@ -18,10 +18,11 @@ public class TeleopRacingDrive extends Command {
 	protected void initialize() {
 		Robot.DRIVETRAIN.setBrakeMode();
 		Robot.DRIVETRAIN.disableVoltageCompensation();
+		Robot.DRIVETRAIN.setRawDrive();
 	}
 
 	// Called repeatedly when this Command is scheduled to run
-	protected void execute() {
+	protected void execute() {		
 		boolean slow = Robot.OI.driver.getButton("LB").get();
 		double throttle = (Robot.OI.driver.getAxis("RT").get() - Robot.OI.driver.getAxis("LT").get())
 				* (slow ? RobotMap.DRIVE_SLOW_SCALE : 1);

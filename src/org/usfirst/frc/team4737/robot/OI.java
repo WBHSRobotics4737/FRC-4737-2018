@@ -97,15 +97,15 @@ public class OI {
 		// operator.getDPad("DPAD").LEFT.whileActive(new TwistIntake(1));
 		// operator.getDPad("DPAD").RIGHT.whileActive(new TwistIntake(-1));
 
-		driver.getButton("Y").whenPressed(new InstantCommand() {
-			@Override
-			protected void initialize() {
-				if (Robot.DRIVETRAIN.isRawDrive())
-					Robot.DRIVETRAIN.setSmoothDrive();
-				else
-					Robot.DRIVETRAIN.setRawDrive();
-			}
-		});
+//		driver.getButton("Y").whenPressed(new InstantCommand() {
+//			@Override
+//			protected void initialize() {
+//				if (Robot.DRIVETRAIN.isRawDrive())
+//					Robot.DRIVETRAIN.setSmoothDrive();
+//				else
+//					Robot.DRIVETRAIN.setRawDrive();
+//			}
+//		});
 
 	}
 

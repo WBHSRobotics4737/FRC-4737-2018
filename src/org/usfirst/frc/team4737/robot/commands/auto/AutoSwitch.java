@@ -5,7 +5,9 @@ import org.usfirst.frc.team4737.robot.Robot;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveCombined;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveForward;
 import org.usfirst.frc.team4737.robot.commands.elevator.AutoRaiseElevator;
+import org.usfirst.frc.team4737.robot.commands.elevator.RelaxElevator;
 import org.usfirst.frc.team4737.robot.commands.intake.AutoDropCube;
+import org.usfirst.frc.team4737.robot.commands.intakegrip.CloseIntakeGrip;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.InstantCommand;
@@ -33,19 +35,23 @@ public class AutoSwitch extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
-    	addSequential(new InstantCommand() {
-    		// TODO put this in it's own class
-			@Override
-			protected void initialize() {
-				Robot.INTAKEGRIP.openPneumatics();
-			}
-    		
-    	});
+    	// Make sure robot has grip on the cube
+    	addSequential(new CloseIntakeGrip());
+    	
+    	// Navigate to the switch
     	addSequential(new AutoDriveForward(5));
 //    	addSequential(new AutoDriveCombined(0, Robot.getInstance().leftSwitch() ? 90 : -90, true));
     	addSequential(new AutoDriveForward(4.5));
-    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(1.5)/*, new AutoDriveCombined(0, 0, true)*/));
+    	
+    	// Begin raising elevator, finish navigating
+    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(1.5, 10)/*, new AutoDriveCombined(0, 0, true)*/));
     	addSequential(new AutoDriveForward(9 - 27.2 / 2.0));
+    	
+    	// Drop cube
     	addSequential(new AutoDropCube());
+    	
+    	// Back off and drop elevator
+    	addSequential(new AutoDriveForward(-1.5));
+    	addSequential(new RelaxElevator());
     }
 }
