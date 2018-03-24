@@ -195,6 +195,13 @@ public class Drivetrain extends Subsystem {
 	@Override
 	public void periodic() {
 		SmartDashboard.putNumber("gy_A", gyro.getAngle());
+
+		if (!targetsMet()) {
+			SmartDashboard.putNumber("lError", leftDistControl.getError());
+			SmartDashboard.putNumber("rError", rightDistControl.getError());
+			SmartDashboard.putNumber("avgError", avgDistControl.getError());
+			SmartDashboard.putNumber("headError", headingControl.getError());
+		}
 	}
 
 	public void setBrakeMode() {
@@ -283,7 +290,7 @@ public class Drivetrain extends Subsystem {
 
 		// Globalize encoders
 		avgDistControl.setSetpoint((leftEnc.getDistance() + rightEnc.getDistance()) / 2.0 + distance);
-		
+
 		double setpointAngle;
 		if (globalAngle) {
 			setpointAngle = angle % 360.0;
