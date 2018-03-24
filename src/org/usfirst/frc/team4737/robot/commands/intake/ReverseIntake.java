@@ -9,6 +9,11 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class ReverseIntake extends Command {
 
+	public ReverseIntake(double timeout) {
+		super(timeout);
+		requires(Robot.INTAKE);
+	}
+	
 	public ReverseIntake() {
 		// Use requires() here to declare subsystem dependencies
 		requires(Robot.INTAKE);

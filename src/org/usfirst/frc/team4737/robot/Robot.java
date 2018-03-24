@@ -8,8 +8,10 @@
 package org.usfirst.frc.team4737.robot;
 
 import org.usfirst.frc.team4737.robot.commands.auto.AutoBaseline;
+import org.usfirst.frc.team4737.robot.commands.auto.AutoSwitch;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.RelaxDrivetrain;
 import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoBlindBaseline;
+import org.usfirst.frc.team4737.robot.commands.drivetrain.auto.AutoDriveCombined;
 import org.usfirst.frc.team4737.robot.subsystems.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
@@ -110,7 +112,8 @@ public class Robot extends TimedRobot {
 		}
 
 		//autonomousCommand = chooser.getSelected();
-		autonomousCommand = new AutoBaseline();
+//		autonomousCommand = new AutoBaseline();
+		autonomousCommand = new AutoSwitch();
 
 		/*
 		 * String autoSelected = SmartDashboard.getString("Auto Selector", "Default");

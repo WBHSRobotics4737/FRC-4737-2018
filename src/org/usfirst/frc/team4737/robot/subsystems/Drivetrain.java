@@ -148,7 +148,7 @@ public class Drivetrain extends Subsystem {
 
 			@Override
 			public double pidGet() {
-				double angle = gyro.getAngle() % 360;
+				double angle = gyro.getAngle() % 360.0;
 				while (angle < 0)
 					angle += 360;
 				return angle;
@@ -283,11 +283,12 @@ public class Drivetrain extends Subsystem {
 
 		// Globalize encoders
 		avgDistControl.setSetpoint((leftEnc.getDistance() + rightEnc.getDistance()) / 2.0 + distance);
+		
 		double setpointAngle;
 		if (globalAngle) {
-			setpointAngle = angle % 360;
+			setpointAngle = angle % 360.0;
 		} else {
-			setpointAngle = (angle + gyro.getAngle()) % 360;
+			setpointAngle = (angle + gyro.getAngle()) % 360.0;
 		}
 		while (setpointAngle < 0)
 			setpointAngle += 360;

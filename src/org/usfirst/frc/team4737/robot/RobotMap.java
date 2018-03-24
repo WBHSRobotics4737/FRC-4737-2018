@@ -59,14 +59,14 @@ public class RobotMap {
 	// Control Constants ######################################################
 
 	public static final double SMOOTH_MAX_SPEED_PCT = 0.8;
-	public static final double SMOOTH_MAX_ACCEL_PCT = 3; // TODO tune these so the robot doesn't tip
-	public static final double SMOOTH_MAX_JERK_PCT = 30;
+	public static final double SMOOTH_MAX_ACCEL_PCT = 1; // TODO tune these so the robot doesn't tip
+	public static final double SMOOTH_MAX_JERK_PCT = 15;
 
 	public static final double DRIVE_DIST_kP = 0.4;
 	public static final double DRIVE_DIST_kD = 0.8;
 	
-	public static final double DRIVE_ANGLE_kP = 0.35 / 180.0;
-	public static final double DRIVE_ANGLE_kD = 0.15 / 180.0;
+	public static final double DRIVE_ANGLE_kP = 0.3 / 90.0;
+	public static final double DRIVE_ANGLE_kD = 0.4 / 90.0;
 	
 	/**
 	 * The voltage to give to the elevator for it to hold constant position with a

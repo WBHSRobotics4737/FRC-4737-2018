@@ -2,6 +2,7 @@ package org.usfirst.frc.team4737.robot.commands.intake;
 
 import org.usfirst.frc.team4737.robot.Robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.TimedCommand;
 
@@ -19,7 +20,7 @@ public class AutoDropCube extends CommandGroup {
 		
 		@Override
 		protected void initialize() {
-			Robot.INTAKEGRIP.openPneumatics();
+			Robot.INTAKEGRIP.closePneumatics();
 		}
 
 		@Override

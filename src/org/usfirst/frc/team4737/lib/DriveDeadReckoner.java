@@ -70,7 +70,7 @@ public class DriveDeadReckoner {
 	private void update(double dt) {
 		double newLDist = lEnc.getDistance();
 		double newRDist = rEnc.getDistance();
-		double actualHeading = -gyro.getAngle() * (Math.PI / 180.0);
+		double actualHeading = gyro.getAngle() * (Math.PI / 180.0);
 
 		double dl = newLDist - lastLDist;
 		double dr = newRDist - lastRDist;

@@ -8,6 +8,7 @@ import org.usfirst.frc.team4737.robot.commands.elevator.AutoRaiseElevator;
 import org.usfirst.frc.team4737.robot.commands.intake.AutoDropCube;
 
 import edu.wpi.first.wpilibj.command.CommandGroup;
+import edu.wpi.first.wpilibj.command.InstantCommand;
 
 /**
  *
@@ -32,10 +33,18 @@ public class AutoSwitch extends CommandGroup {
         // a CommandGroup containing them would require both the chassis and the
         // arm.
     	
+    	addSequential(new InstantCommand() {
+    		// TODO put this in it's own class
+			@Override
+			protected void initialize() {
+				Robot.INTAKEGRIP.openPneumatics();
+			}
+    		
+    	});
     	addSequential(new AutoDriveForward(5));
-    	addSequential(new AutoDriveCombined(0, Robot.getInstance().leftSwitch() ? 90 : -90, true));
+//    	addSequential(new AutoDriveCombined(0, Robot.getInstance().leftSwitch() ? 90 : -90, true));
     	addSequential(new AutoDriveForward(4.5));
-    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(1.5), new AutoDriveCombined(0, 0, true)));
+    	addSequential(new ParallelCommandGroup(new AutoRaiseElevator(1.5)/*, new AutoDriveCombined(0, 0, true)*/));
     	addSequential(new AutoDriveForward(9 - 27.2 / 2.0));
     	addSequential(new AutoDropCube());
     }
